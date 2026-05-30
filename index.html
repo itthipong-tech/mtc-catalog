@@ -512,9 +512,13 @@ function openModal(id){
         <div style="width:20px;height:20px;border-radius:50%;background:${c.hex};flex-shrink:0"></div>
         <span style="font-size:12px;font-family:'Poppins',sans-serif;font-weight:600">${c.color}</span>
       </button>`).join('');
-    // Set first color
-    if(colors[0].img) document.getElementById('overlayPhone').src = colors[0].img;
-    else if(overlaySection) overlaySection.style.display='none';
+    // Set first color image immediately
+    const firstColorWithImg = colors.find(c=>c.img);
+    if(firstColorWithImg){
+      document.getElementById('overlayPhone').src = firstColorWithImg.img;
+    } else if(overlaySection){
+      overlaySection.style.display='none';
+    }
   } else {
     if(overlaySection) overlaySection.style.display='none';
   }
