@@ -50,16 +50,7 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .picker-title{font-size:24px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:4px;}
 
 .picker-sub{font-size:13px;color:var(--gray-text);margin-bottom:22px;font-weight:400;}
-.color-matcher{background:var(--gray-bg);border-radius:14px;padding:16px;margin-bottom:22px;border:1.5px solid var(--gray-mid);transition:border-color 0.2s;}
-.color-matcher.active{border-color:var(--black);}
-.color-matcher-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:10px;}
 .color-matcher-title span{color:var(--gray-text);font-weight:400;}
-.iphone-colors{display:flex;gap:10px;flex-wrap:wrap;}
-.color-placeholder{font-size:12px;color:var(--gray-text);padding:2px 0;}
-.iphone-color-btn{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;background:none;border:none;}
-.iphone-color-swatch{width:38px;height:38px;border-radius:50%;border:2.5px solid transparent;transition:all 0.2s;box-shadow:0 0 0 1px rgba(0,0,0,0.12);}
-.iphone-color-btn.active .iphone-color-swatch{border-color:var(--black);box-shadow:0 0 0 3px rgba(0,0,0,0.1);}
-.iphone-color-btn span{font-size:10px;color:var(--gray-text);font-weight:500;}
 .series-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-text);margin-bottom:12px;}
 .model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .model-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:16px;padding:18px 12px 14px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px;}
@@ -75,7 +66,7 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .model-bar{background:var(--yellow);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:var(--black);}
 .model-bar-color{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,0.6);font-weight:500;margin-top:2px;}
-.model-bar-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.2);display:none;flex-shrink:0;}
+
 .change-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--black);background:rgba(0,0,0,0.1);border:none;border-radius:10px;padding:5px 12px;cursor:pointer;}
 .filter-scroll{background:var(--white);padding:12px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
 .cat-card{flex-shrink:0;width:90px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative;}
@@ -99,8 +90,8 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .catalog-grid{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;}
 .prod-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.15s;position:relative;}
 .prod-card:active{transform:scale(0.97);}
-.prod-card.color-match{border-color:var(--black);}
-.prod-card.color-match::before{content:'เข้ากัน';position:absolute;top:8px;right:8px;background:var(--yellow);color:var(--black);font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px;z-index:2;}
+
+
 .prod-img{background:var(--gray-bg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .prod-img img{width:100%;height:100%;object-fit:cover;}
 .prod-img-placeholder{width:55%;height:55%;opacity:0.15;}
@@ -206,13 +197,6 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
     <div class="picker-title">เลือกรุ่น iPhone ของคุณ</div>
     <div class="picker-sub">เพื่อดูสินค้าที่เข้ากับเครื่องของคุณ</div>
 
-    <div class="color-matcher" id="colorMatcherBox">
-      <div class="color-matcher-title" id="colorMatcherTitle">สีเครื่องของคุณคือ? <span>(เลือกรุ่นก่อนนะคะ)</span></div>
-      <div class="iphone-colors" id="iphoneColorPicker">
-        <div class="color-placeholder">เลือกรุ่น iPhone ด้านล่างก่อนค่ะ</div>
-      </div>
-    </div>
-
     <div class="series-label">iPhone 17 Series</div>
     <div class="model-grid">
       <div class="model-card" id="card-iPhone 17" onclick="previewModel('iPhone 17',this)">
@@ -255,7 +239,7 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
     <div>
       <div class="model-bar-name" id="barModelName"></div>
       <div class="model-bar-color">
-        <div class="model-bar-dot" id="barColorDot"></div>
+        
         <span id="barColorName"></span>
       </div>
     </div>
@@ -275,7 +259,7 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
   </div>
   <div class="results-row">
     <div class="results-count" id="resultsCount">กำลังโหลด...</div>
-    <div class="color-match-badge" id="matchBadge">จับคู่สีเครื่องอยู่</div>
+    
   </div>
   <div class="catalog-grid" id="catalogGrid">
     <div class="loading-state"><div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div><div style="font-size:13px;color:var(--gray-text)">กำลังโหลดสินค้า...</div></div>
@@ -373,37 +357,14 @@ async function loadData(){
 
 function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
-function renderColorPicker(model){
-  const colors=MODEL_COLORS[model]||[];
-  const picker=document.getElementById('iphoneColorPicker');
-  const title=document.getElementById('colorMatcherTitle');
-  document.getElementById('colorMatcherBox').classList.add('active');
-  if(!colors.length){picker.innerHTML='<div class="color-placeholder">ไม่มีข้อมูลสีค่ะ</div>';return;}
-  title.innerHTML=`สีเครื่อง <strong>${model}</strong> ของคุณคือ? <span>(ไม่บังคับ)</span>`;
-  picker.innerHTML=colors.map(c=>`
-    <button class="iphone-color-btn" data-color="${c.color}" data-hex="${c.hex}" onclick="selectPhoneColor(this)">
-      <div class="iphone-color-swatch" style="background:${c.hex}${c.hex==='#F2F2F0'?';box-shadow:0 0 0 1.5px #ccc inset':''}"></div>
-      <span>${c.color}</span>
-    </button>`).join('');
-  if(state.phoneColor&&pendingModel===model){
-    document.querySelectorAll('.iphone-color-btn').forEach(b=>{if(b.dataset.color===state.phoneColor)b.classList.add('active');});
-  }
-}
-
-function selectPhoneColor(btn){
-  document.querySelectorAll('.iphone-color-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  state.phoneColor=btn.dataset.color;
-  state.phonehex=btn.dataset.hex;
-}
 
 function previewModel(model,el){
   document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
-  if(pendingModel!==model){state.phoneColor='';state.phonehex='';}
+  if(pendingModel!==model){}
   pendingModel=model;
-  renderColorPicker(model);
-  document.getElementById('colorMatcherBox').scrollIntoView({behavior:'smooth',block:'nearest'});
+  
+  
   document.getElementById('confirmBar').style.display='block';
   document.getElementById('confirmLabel').textContent=model;
 }
@@ -413,10 +374,7 @@ function goToCatalog(){
   state.model=pendingModel;
   state.cat='all';state.tag='';state.brand='';state.search='';
   document.getElementById('barModelName').textContent=state.model;
-  const dot=document.getElementById('barColorDot');
-  const nameEl=document.getElementById('barColorName');
-  if(state.phoneColor){dot.style.display='block';dot.style.background=state.phonehex;nameEl.textContent=state.phoneColor;document.getElementById('matchBadge').classList.add('show');}
-  else{dot.style.display='none';nameEl.textContent='';document.getElementById('matchBadge').classList.remove('show');}
+
   document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
   document.querySelectorAll('[data-tag],[data-brand]').forEach(c=>c.classList.remove('active'));
   document.getElementById('searchInput').value='';
@@ -490,9 +448,9 @@ function renderGrid(){
   document.getElementById('resultsCount').innerHTML=`แสดง <strong>${list.length}</strong> รายการ`;
   if(!list.length){document.getElementById('catalogGrid').innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยน filter หรือ keyword นะคะ</p></div>';return;}
   document.getElementById('catalogGrid').innerHTML=list.map(p=>{
-    const m=isMatch(p);
+    const m=false;
     const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
-    return`<div class="prod-card${m?' color-match':''}" onclick="openModal(${p.id})" style="cursor:pointer">
+    return`<div class="prod-card${m?' color-match':''}" onclick="event.stopPropagation();openModal(${p.id})">
       <div class="prod-img">${imgHtml}${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
@@ -543,10 +501,10 @@ function openModal(id){
     overlaySection.style.display='block';
     document.getElementById('overlayCase').src = p.cutout;
     // Render color buttons
-    document.getElementById('overlayColors').innerHTML = colors.map((c,i)=>`
-      <button class="overlay-color-btn ${i===0?'active':''}" onclick="selectOverlayColor(this,'${c.img}')">
-        <div class="overlay-swatch" style="background:${c.hex}"></div>
-        <span>${c.color}</span>
+    document.getElementById('overlayColors').innerHTML = colors.filter(c=>c.img).map((c,i)=>`
+      <button class="overlay-color-btn ${i===0?'active':''}" onclick="selectOverlayColor(this,'${c.img}')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:20px;border:1.5px solid ${i===0?'var(--black)':'var(--gray-mid)'}">
+        <div style="width:20px;height:20px;border-radius:50%;background:${c.hex};flex-shrink:0"></div>
+        <span style="font-size:12px;font-family:'Poppins',sans-serif;font-weight:600">${c.color}</span>
       </button>`).join('');
     // Set first color
     if(colors[0].img) document.getElementById('overlayPhone').src = colors[0].img;
@@ -574,8 +532,8 @@ function prevSlide(){
   goSlide((window._slideIdx-1+slides.length)%slides.length);
 }
 function selectOverlayColor(btn, imgUrl){
-  document.querySelectorAll('.overlay-color-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.overlay-color-btn').forEach(b=>b.style.borderColor='var(--gray-mid)');
+  btn.style.borderColor='var(--black)';
   if(imgUrl) document.getElementById('overlayPhone').src = imgUrl;
 }
 function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
