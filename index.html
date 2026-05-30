@@ -150,8 +150,8 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .modal-cta{display:none;}
 
 /* 1:1 Pure CSS Square overlay container layout - ประกบตรงแบบดั้งเดิม */
-.overlay-container-box {position:relative; width:100%; max-width:280px; margin:0 auto; aspect-ratio:1/1;}
-.overlay-container-box img {position:absolute; top:0; left:0; width:100%; height:100%; object-fit:fill;}
+.overlay-container-box {position:relative; width:100%; max-width:200px; margin:0 auto; aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+.overlay-container-box img {position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;}
 #overlayPhone {z-index:1;}
 #overlayCase {z-index:2;}
 
@@ -242,8 +242,7 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
   </div>
   <div class="filter-scroll" id="tagBrandRow" style="padding:8px 16px;">
     <div id="tagChips" style="display:contents"></div>
-  </div>
-  <div class="filter-scroll" id="brandRow" style="padding:4px 16px;border-bottom:1px solid var(--gray-mid);">
+    <div class="filter-divider" id="brandDivider" style="display:none"></div>
     <div id="brandChips" style="display:contents"></div>
   </div>
   <div class="results-row">
