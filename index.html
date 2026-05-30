@@ -503,7 +503,7 @@ function openModal(id){
   // Overlay section
   const colors = MODEL_COLORS[state.model] || [];
   const overlaySection = document.getElementById('overlaySection');
-  if(p.cutout && colors.length){
+  if(overlaySection && p.cutout && colors.length){
     overlaySection.style.display='block';
     document.getElementById('overlayCase').src = p.cutout;
     // Render color buttons
@@ -514,9 +514,9 @@ function openModal(id){
       </button>`).join('');
     // Set first color
     if(colors[0].img) document.getElementById('overlayPhone').src = colors[0].img;
-    else overlaySection.style.display='none';
+    else if(overlaySection) overlaySection.style.display='none';
   } else {
-    overlaySection.style.display='none';
+    if(overlaySection) overlaySection.style.display='none';
   }
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
