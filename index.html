@@ -24,33 +24,32 @@
   font-weight: 500;
   font-style: normal;
 }
-:root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--gray-bg:#F5F5F5;--gray-mid:#E0E0E0;--gray-text:#888888;}
+:root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--gray-bg:#F6F6F6;--gray-mid:#E0E0E0;--gray-text:#888888;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;height:100vh;overflow:hidden;}
-#splash{position:fixed;inset:0;z-index:999;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
+
+/* Minimal White Splash Screen */
+#splash{position:fixed;inset:0;z-index:999;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
 .splash-ring{width:72px;height:72px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:popIn 0.5s cubic-bezier(.175,.885,.32,1.275);}
-.splash-ring svg{width:36px;height:36px;}
-.splash-logo{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;color:var(--black);text-transform:lowercase;letter-spacing:-1px;margin-bottom:4px;}
-.splash-logo em{font-style:normal;border-bottom:3px solid var(--black);}
-.splash-tag{font-size:12px;color:rgba(0,0,0,0.5);font-weight:500;letter-spacing:1px;}
+.splash-ring svg{width:36px;height:36px;fill:var(--yellow);}
+.splash-tag{font-size:12px;color:rgba(0,0,0,0.5);font-weight:500;letter-spacing:1px;margin-top:10px;}
 @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+
 .view{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
 .view.active{display:flex;}
 .app-header{background:var(--white);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-top:5px solid var(--yellow);border-bottom:2px solid var(--blue);}
-
 
 .search-wrap{position:relative;}
 .search-input{background:var(--gray-bg);border:1px solid var(--gray-mid);border-radius:20px;padding:8px 14px 8px 32px;color:var(--black);font-family:'Mitr',sans-serif;font-size:13px;width:185px;outline:none;transition:border-color 0.2s;}
 .search-input::placeholder{color:var(--gray-text);}
 .search-input:focus{border-color:var(--blue);}
 .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-text);font-size:13px;}
-/* PICKER */
+
+/* PICKER VIEW */
 .picker-body{flex:1;overflow-y:auto;padding:24px 20px 100px;}
 .picker-title{font-size:24px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:4px;}
-
 .picker-sub{font-size:13px;color:var(--gray-text);margin-bottom:22px;font-weight:400;}
-.color-matcher-title span{color:var(--gray-text);font-weight:400;}
 .series-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-text);margin-bottom:12px;}
 .model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .model-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:16px;padding:18px 12px 14px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px;}
@@ -62,18 +61,16 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .model-chip{font-family:'Poppins',sans-serif;font-size:10px;background:var(--yellow);color:var(--black);padding:2px 8px;border-radius:8px;font-weight:700;}
 .confirm-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 20px 20px;background:var(--white);border-top:1px solid var(--gray-mid);display:none;}
 .confirm-btn{width:100%;padding:15px;background:var(--black);color:var(--yellow);border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
-/* CATALOG */
+
+/* CATALOG VIEW */
 .model-bar{background:var(--yellow);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:var(--black);}
 .model-bar-color{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,0.6);font-weight:500;margin-top:2px;}
-
 .change-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--black);background:rgba(0,0,0,0.1);border:none;border-radius:10px;padding:5px 12px;cursor:pointer;}
 .filter-scroll{background:var(--white);padding:12px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
 .cat-card{flex-shrink:0;width:90px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative;}
 .cat-card.active{border-color:var(--black);}
-.cat-card:active{transform:scale(0.96);}
 .cat-card-img{width:90px;height:70px;object-fit:cover;display:block;background:var(--gray-bg);}
-.cat-card-img-placeholder{width:90px;height:70px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;}
 .cat-card-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);color:white;font-size:10px;font-weight:700;padding:4px 6px;text-align:center;font-family:'Poppins',sans-serif;text-transform:lowercase;}
 .cat-all-btn{flex-shrink:0;width:90px;height:70px;border-radius:12px;border:2px solid var(--gray-mid);background:var(--white);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all 0.2s;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--gray-text);}
 .cat-all-btn.active{border-color:var(--black);background:var(--black);color:var(--yellow);}
@@ -85,32 +82,34 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .results-row{padding:8px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
 .results-count{font-size:12px;color:var(--gray-text);}
 .results-count strong{color:var(--black);}
-.color-match-badge{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;background:var(--yellow);color:var(--black);padding:3px 10px;border-radius:10px;display:none;align-items:center;}
-.color-match-badge.show{display:flex;}
-.catalog-grid{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;}
-.prod-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.15s;position:relative;}
-.prod-card:active{transform:scale(0.97);}
 
+/* Casetify-Style Premium Responsive Grid Layout for iPad */
+.catalog-grid{flex:1;overflow-y:auto;padding:24px;display:grid;grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));gap:28px;align-content:start;}
+.prod-card{background:transparent;border:none;cursor:pointer;transition:transform 0.2s ease;display:flex;flex-direction:column;position:relative;height:auto;}
+.prod-card:active{transform:scale(0.98);}
 
-.prod-img{background:var(--gray-bg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+/* รูปภาพกรอบสี่เหลี่ยมจัตุรัสแบบ Casetify มีพื้นหลังนวลๆ ไร้ขอบตัด */
+.prod-img{background:var(--gray-bg);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:16px;}
 .prod-img img{width:100%;height:100%;object-fit:cover;}
-.prod-img-placeholder{width:55%;height:55%;opacity:0.15;}
-.prod-img-placeholder svg{width:100%;height:100%;}
-.prod-badge{position:absolute;top:8px;left:8px;padding:3px 7px;border-radius:7px;font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;}
+.prod-img-placeholder{width:40%;height:40%;opacity:0.15;}
+.prod-badge{position:absolute;top:12px;left:12px;padding:4px 8px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;z-index:2;}
 .badge-new{background:var(--blue);color:var(--black);}
 .badge-hot{background:var(--yellow);color:var(--black);}
 .badge-sale{background:#FF4444;color:white;}
-.prod-info{padding:10px;}
-.prod-brand{font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:2px;}
-.prod-name{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:4px;}
-.prod-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;}
-.prod-tag{font-size:9px;font-weight:500;padding:2px 6px;border-radius:6px;background:var(--gray-bg);color:var(--gray-text);}
-.prod-bottom{display:flex;align-items:center;justify-content:space-between;}
-.prod-price{font-family:'Poppins',sans-serif;font-size:15px;font-weight:900;color:var(--black);}
-.prod-price sup{font-size:9px;font-weight:600;}
-.prod-colors{display:flex;gap:3px;}
-.prod-color-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);}
-.no-results{grid-column:1/-1;text-align:center;padding:50px 20px;}
+
+/* ข้อมูลสินค้าใต้ภาพแยกแบรนด์ชัดเจน ยืดความสูงชื่อเต็มที่แบบไม่ซ้อนทับกัน */
+.prod-info{padding:12px 4px 0;display:flex;flex-direction:column;flex:1;height:auto;}
+.prod-brand{font-family:'Poppins',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:4px;line-height:1;}
+.prod-name{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:6px;color:var(--black);word-break:break-word;overflow:visible;white-space:normal;height:auto;}
+.prod-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;height:auto;}
+.prod-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--gray-bg);color:var(--gray-text);}
+.prod-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px;border-top:1px solid #F0F0F0;flex-shrink:0;}
+.prod-price{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--black);}
+.prod-price sup{font-size:10px;font-weight:600;}
+.prod-colors{display:flex;gap:4px;}
+.prod-color-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);}
+
+.no-results{grid-column:1/-1;text-align:center;padding:60px 20px;}
 .no-results h3{font-size:16px;font-weight:600;margin-bottom:6px;}
 .no-results p{font-size:13px;color:var(--gray-text);}
 .loading-state{grid-column:1/-1;text-align:center;padding:50px 20px;}
@@ -119,75 +118,66 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .loading-dot:nth-child(2){animation-delay:0.15s;}
 .loading-dot:nth-child(3){animation-delay:0.3s;}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+
 /* MODAL */
-.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:all 0.25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal-sheet{background:var(--white);width:100%;max-height:88vh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s cubic-bezier(.32,0,.67,0);position:relative;}
 .modal-bg.open .modal-sheet{transform:translateY(0);}
+.modal-bg.open.lightbox-open .modal-sheet{transform:scale(0.96);opacity:0.6;filter:blur(2px);}
+
 .modal-handle{width:32px;height:4px;border-radius:2px;background:var(--gray-mid);margin:10px auto;}
-.modal-close{position:absolute;top:12px;right:16px;background:var(--gray-bg);border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;}
-.modal-hero{display:none;}
-.hero-placeholder{display:none;}
+.modal-close{position:absolute;top:12px;right:16px;background:var(--gray-bg);border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;z-index:10;}
 .modal-body{padding:16px 18px 36px;}
-.modal-inner{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;}
+
+.modal-inner{display:flex;flex-direction:column;gap:16px;margin-bottom:16px;}
+.modal-img-side{width:100%;display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+.modal-img-side::-webkit-scrollbar{display:none;}
+.modal-info-side{flex:1;width:100%;}
+
 .overlay-section{background:var(--gray-bg);border-radius:14px;padding:16px;margin-bottom:16px;}
-.overlay-title{font-size:12px;font-weight:700;color:var(--gray-text);text-transform:uppercase;letter-spacing:1px;font-family:'Poppins',sans-serif;margin-bottom:12px;}
-.overlay-colors{display:flex;gap:8px;margin-bottom:14px;}
 .overlay-color-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;}
-.overlay-swatch{width:32px;height:32px;border-radius:50%;border:2.5px solid transparent;transition:all 0.2s;box-shadow:0 0 0 1px rgba(0,0,0,0.12);}
-.overlay-color-btn.active .overlay-swatch{border-color:var(--black);}
-.overlay-color-btn span{font-size:10px;color:var(--gray-text);font-weight:500;}
-.overlay-preview{position:relative;width:100%;max-width:280px;margin:0 auto;aspect-ratio:1/1;}
-.overlay-phone{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;}
-.overlay-case{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:2;}
-.modal-img-side{width:160px;flex-shrink:0;border-radius:10px;overflow:hidden;background:var(--gray-bg);}
-.slideshow-wrap{position:relative;width:160px;}
-.slideshow-main{width:160px;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--gray-bg);position:relative;}
-.slideshow-main img{width:100%;height:100%;object-fit:cover;display:block;}
-.slide-dots{display:flex;gap:4px;justify-content:center;margin-top:6px;}
-.slide-dot{width:5px;height:5px;border-radius:50%;background:var(--gray-mid);cursor:pointer;transition:background 0.2s;}
-.slide-dot.active{background:var(--black);}
-.slide-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 4px;pointer-events:none;}
-.slide-arrow{background:rgba(0,0,0,0.4);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;pointer-events:all;display:flex;align-items:center;justify-content:center;}
-.modal-img-side img{width:100%;height:100%;object-fit:cover;}
-.modal-img-placeholder-side{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;}
-.modal-info-side{flex:1;}
-.modal-brand{font-family:'Poppins',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray-text);margin-bottom:3px;}
+.modal-brand{font-family:'Poppins',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray-text);margin-bottom:4px;}
 .modal-name{font-size:20px;font-weight:600;line-height:1.2;margin-bottom:3px;}
 .modal-model-txt{font-family:'Poppins',sans-serif;font-size:12px;color:var(--gray-text);margin-bottom:12px;}
 .modal-price{font-family:'Poppins',sans-serif;font-size:26px;font-weight:900;margin-bottom:14px;}
 .modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
 .modal-tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:10px;background:var(--gray-bg);color:var(--black);}
-.match-section{display:none;}
-.match-title{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
-.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.match-item{border-radius:10px;padding:8px;display:flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,0.08);}
-.match-item.good{background:rgba(255,228,0,0.12);border-color:rgba(255,228,0,0.3);}
-.match-item.neutral{background:rgba(255,255,255,0.04);}
-.match-dot-big{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);flex-shrink:0;}
-.match-color-name{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--white);}
-.match-rating{font-size:10px;color:rgba(255,255,255,0.45);}
-.match-stars{color:var(--yellow);font-size:10px;font-family:'Poppins',sans-serif;}
 .section-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:10px;}
 .feature-list{list-style:none;margin-bottom:18px;}
 .feature-list li{font-size:13px;padding:8px 0;border-bottom:1px solid var(--gray-mid);display:flex;gap:8px;align-items:flex-start;font-weight:400;}
 .feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;}
 .modal-cta{display:none;}
+
+/* 1:1 Pure CSS Square overlay container layout - ประกบตรงแบบดั้งเดิม */
+.overlay-container-box {position:relative; width:100%; max-width:280px; margin:0 auto; aspect-ratio:1/1;}
+.overlay-container-box img {position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain;}
+#overlayPhone {z-index:1;}
+#overlayCase {z-index:2;}
+
+/* Soft Transparent LightBox Modal */
+#lightboxModal {position:fixed;inset:0;z-index:600;background:rgba(20,20,20,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;pointer-events:none;}
+#lightboxModal.open {display:flex;opacity:1;pointer-events:all;}
+#lightboxImage {max-width:85%;max-height:75vh;object-fit:contain;border-radius:16px;box-shadow:0 20px 40px rgba(0,0,0,0.3);animation:zoomIn 0.25s cubic-bezier(.175,.885,.32,1.15);}
+@keyframes zoomIn {from{transform:scale(0.92);opacity:0;} to{transform:scale(1);opacity:1;}}
+#lightboxClose {position:absolute;top:24px;right:24px;color:white;font-size:36px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:300;background:rgba(255,255,255,0.1);width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.lightbox-nav {position:absolute;top:50%;transform:translateY(-50%);color:white;font-size:28px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;cursor:pointer;width:50px;height:50px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10;}
+#lightboxPrev {left:24px;}
+#lightboxNext {right:24px;}
+.lightbox-nav:active {background:rgba(255,255,255,0.3);}
 </style>
-<script>// inline token fallback
-window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
+<script>window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
 </head>
 <body>
 
 <div id="splash">
   <div class="splash-ring">
-    <svg viewBox="0 0 24 24" fill="#FFE400" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
   </div>
   <img src="logo.svg" alt="maitreechit." style="height:48px;object-fit:contain;margin-bottom:6px;">
   <div class="splash-tag">always your friend.</div>
 </div>
 
-<!-- PICKER VIEW -->
 <div id="viewPicker" class="view">
   <div class="app-header">
     <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
@@ -226,7 +216,6 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
   </div>
 </div>
 
-<!-- CATALOG VIEW -->
 <div id="viewCatalog" class="view">
   <div class="app-header">
     <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
@@ -239,7 +228,6 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
     <div>
       <div class="model-bar-name" id="barModelName"></div>
       <div class="model-bar-color">
-        
         <span id="barColorName"></span>
       </div>
     </div>
@@ -259,23 +247,19 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
   </div>
   <div class="results-row">
     <div class="results-count" id="resultsCount">กำลังโหลด...</div>
-    
   </div>
   <div class="catalog-grid" id="catalogGrid">
     <div class="loading-state"><div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div><div style="font-size:13px;color:var(--gray-text)">กำลังโหลดสินค้า...</div></div>
   </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-bg" id="modalBg" onclick="handleModalClick(event)">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <button class="modal-close" onclick="closeModal()">&#10005;</button>
     <div class="modal-body">
       <div class="modal-inner">
-        <div class="modal-img-side" id="mHero">
-          <div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>
-        </div>
+        <div class="modal-img-side" id="mHero"></div>
         <div class="modal-info-side">
           <div class="modal-brand" id="mBrand"></div>
           <div class="modal-name" id="mName"></div>
@@ -286,15 +270,16 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
       </div>
 
       <div id="overlaySection" style="display:none;background:var(--gray-bg);border-radius:14px;padding:14px;margin-bottom:16px;">
-        <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--gray-text);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">ลองใส่เคสกับเครื่องของคุณ</div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <div id="overlayColors" style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"></div>
-          <div style="position:relative;flex:1;aspect-ratio:3/4;max-width:200px;margin:0 auto">
-            <img id="overlayPhone" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1">
-            <img id="overlayCase" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2">
+        <div style="font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;color:var(--gray-text);margin-bottom:12px;">ลองใส่เคสกับเครื่องของคุณ</div>
+        <div style="display:flex;gap:16px;align-items:center">
+          <div id="overlayColors" style="display:flex;flex-direction:column;gap:8px;flex-shrink:0"></div>
+          <div class="overlay-container-box">
+            <img id="overlayPhone" src="">
+            <img id="overlayCase" src="">
           </div>
         </div>
       </div>
+
       <div class="section-label">รายละเอียด</div>
       <ul class="feature-list" id="mFeatures"></ul>
       <button class="modal-cta">สนใจสินค้านี้ — แจ้ง PC staff</button>
@@ -302,38 +287,41 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
   </div>
 </div>
 
+<div id="lightboxModal" onclick="closeLightbox()">
+  <span id="lightboxClose" onclick="closeLightbox()">&times;</span>
+  <img id="lightboxImage" src="" alt="ขยายรูปภาพ" onclick="event.stopPropagation()">
+  <button id="lightboxPrev" class="lightbox-nav" onclick="prevLightboxImage(event)">&#10094;</button>
+  <button id="lightboxNext" class="lightbox-nav" onclick="nextLightboxImage(event)">&#10095;</button>
+</div>
+
 <script>
 // ── AIRTABLE CONFIG ──
-// Token โหลดจาก config.js แยกต่างหาก ไม่ฝังใน HTML
 const AIRTABLE_BASE  = 'appuDsqo3ODV9r4Ym';
 const AIRTABLE_TABLE = 'tblpHdM3GcpPjUix3';
 const AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || '';
 
 const MODEL_COLORS = {
-  'iPhone 17':        [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
-  'iPhone 17 Plus':   [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
-  'iPhone 17 Pro':    [{color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/NnY85jjC/i-Phone-17-Promax-Silver.png'},{color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/XfrfVLGK/47a2de26-d276-400f-8074-2d6c19a78cf3.png'},{color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/5grVcGK8/1017f444-8ac4-4f7a-9053-d4fe9e14d71f.png'}],
-  'iPhone 17 Pro Max':[{color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/NnY85jjC/i-Phone-17-Promax-Silver.png'},{color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/XfrfVLGK/47a2de26-d276-400f-8074-2d6c19a78cf3.png'},{color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/5grVcGK8/1017f444-8ac4-4f7a-9053-d4fe9e14d71f.png'}],
+  'iPhone 17 Pro':    [
+    {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/VYFxHQGP/Silver.png'},
+    {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/358MH6ZK/Blue.png'},
+    {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/rRg7QS9x/Orange.png'}
+  ],
+  'iPhone 17 Pro Max':[
+    {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/VYFxHQGP/Silver.png'},
+    {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/358MH6ZK/Blue.png'},
+    {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/rRg7QS9x/Orange.png'}
+  ],
 };
 
 const FALLBACK = [
-  {id:1,brand:'Skinarma',name:'Sabre Series',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:690,badge:'hot',image:'',tags:['กันกระแทก'],colors:[{name:'Onyx',hex:'#1A1A1A',matchColors:['ดำ']},{name:'Frost',hex:'#E8E8E8',matchColors:['ขาว','ฟ้าหมอก','ลาเวนเดอร์']},{name:'Yellow',hex:'#FFE400',matchColors:['ฟ้าหมอก']},{name:'Coral',hex:'#FF6B6B',matchColors:['ลาเวนเดอร์']}],features:['Military-grade drop protection 2.1m','Dual-layer TPU + Polycarbonate','Tactile button covers','Raised lip screen protection']},
-  {id:2,brand:'Skinarma',name:'Sheer Mag',model:'iPhone 17 Pro / Pro Max',models:['iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:890,badge:'new',image:'',tags:['บาง','MagSafe','ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['เงิน','น้ำเงินเข้ม','ส้มคอสมิก']},{name:'Black',hex:'#1A1A1A',matchColors:['น้ำเงินเข้ม']},{name:'Blue',hex:'#45F1FF',matchColors:['น้ำเงินเข้ม']}],features:['MagSafe 15W compatible','Ultra-thin 1.2mm','Anti-scratch coating','Wireless charge through case']},
-  {id:3,brand:'Skinarma',name:'Keichou',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:590,badge:null,image:'',tags:['ฟรุ้งฟริ้ง'],colors:[{name:'Purple',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์','ฟ้าหมอก']},{name:'Pink',hex:'#E5989B',matchColors:['ลาเวนเดอร์']},{name:'Black',hex:'#1A1A1A',matchColors:['ดำ']},{name:'White',hex:'#F5F5F5',matchColors:['ขาว']}],features:['Anti-shock bumper design','Japanese aesthetic pattern','Screen lip 1.5mm','Microfiber inner lining']},
-  {id:4,brand:'Skinarma',name:'Saiji Strap',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:490,badge:null,image:'',tags:['MagSafe','สายคล้อง'],colors:[{name:'Yellow',hex:'#FFE400',matchColors:['เงิน','ขาว']},{name:'Blue',hex:'#45F1FF',matchColors:['ฟ้าหมอก','น้ำเงินเข้ม']},{name:'Coral',hex:'#FF6B6B',matchColors:['ส้มคอสมิก']},{name:'Purple',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์','น้ำเงินเข้ม']}],features:['MagSafe attach & detach','Adjustable strap','Drop-proof grip ring','Lightweight 25g']},
-  {id:5,brand:'Laut',name:'Crystal Necklace',model:'iPhone 17 Pro',models:['iPhone 17 Pro'],cat:'เคส',price:1290,badge:'new',image:'',tags:['ฟรุ้งฟริ้ง','สายคล้อง'],colors:[{name:'Crystal',hex:'#F8F8F8',matchColors:['เงิน']},{name:'Gold',hex:'#FFD700',matchColors:['เงิน','ส้มคอสมิก']},{name:'Rose',hex:'#FF69B4',matchColors:[]}],features:['Real Swarovski elements','Detachable necklace chain 60cm','Shock-absorbing TPU','Fashion statement piece']},
-  {id:6,brand:'Laut',name:'Huex Reflect',model:'iPhone 17 / 17 Pro',models:['iPhone 17','iPhone 17 Pro'],cat:'เคส',price:890,badge:null,image:'',tags:['ฟรุ้งฟริ้ง','บาง'],colors:[{name:'Sky',hex:'#45F1FF',matchColors:['ฟ้าหมอก','น้ำเงินเข้ม']},{name:'Lilac',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์']},{name:'Blush',hex:'#E5989B',matchColors:['ลาเวนเดอร์','เงิน']}],features:['Iridescent reflective finish','Slim profile 1.5mm','Anti-yellowing material','Drop protection 2m']},
-  {id:7,brand:'Laut',name:'Huex Pastels',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:790,badge:null,image:'',tags:['ฟรุ้งฟริ้ง','บาง'],colors:[{name:'Mint',hex:'#B5EAD7',matchColors:['ฟ้าหมอก','ขาว']},{name:'Lilac',hex:'#C7B8EA',matchColors:['ลาเวนเดอร์']},{name:'Yellow',hex:'#FFDAC1',matchColors:['ขาว']}],features:['Soft pastel tones','Flexible TPU','Slim fit','Wireless charge compatible']},
-  {id:8,brand:'Laut',name:'Crystal Screen',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'กระจก',price:590,badge:null,image:'',tags:['ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['ดำ','ขาว','ฟ้าหมอก','ลาเวนเดอร์','เงิน','น้ำเงินเข้ม','ส้มคอสมิก']}],features:['9H tempered glass','Anti-fingerprint coating','Full edge-to-edge coverage','Easy install kit']},
-  {id:9,brand:'Amzginthing',name:'AeroShield Pro',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'กระจก',price:390,badge:'sale',image:'',tags:['ใส','กันกระแทก'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['ดำ','ขาว','ฟ้าหมอก','ลาเวนเดอร์','เงิน','น้ำเงินเข้ม','ส้มคอสมิก']}],features:['HD clarity 99.9%','Shatter-proof glass','Anti-blue light option','Self-healing surface']},
-  {id:10,brand:'Amzginthing',name:'MagLink Wallet',model:'MagSafe Universal',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:690,badge:'new',image:'',tags:['MagSafe'],colors:[{name:'Black',hex:'#1A1A1A',matchColors:['ดำ','น้ำเงินเข้ม']},{name:'Tan',hex:'#C8975A',matchColors:['เงิน','ส้มคอสมิก']},{name:'Forest',hex:'#1a6b3c',matchColors:['ฟ้าหมอก']}],features:['Holds 3 cards + cash','MagSafe snap','RFID blocking','Genuine leather']},
-  {id:11,brand:'JTLegend',name:'Hybrid Cushion',model:'iPhone 17 Pro Max',models:['iPhone 17 Pro Max'],cat:'เคส',price:690,badge:null,image:'',tags:['กันกระแทก','ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['เงิน','น้ำเงินเข้ม','ส้มคอสมิก']},{name:'Black',hex:'#1A1A1A',matchColors:['น้ำเงินเข้ม']}],features:['Airbag corner protection','MIL-STD-810G certified','Wireless charging friendly','Crystal clear back']},
-  {id:12,brand:'JTLegend',name:'Amos AirPods Pro',model:'AirPods Pro',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'AirPods',price:690,badge:null,image:'',tags:['กันกระแทก'],colors:[{name:'Black',hex:'#1A1A1A',matchColors:['ดำ','น้ำเงินเข้ม']},{name:'Tan',hex:'#C8975A',matchColors:['เงิน','ส้มคอสมิก']},{name:'White',hex:'#F5F5F5',matchColors:['ขาว','เงิน']}],features:['Carabiner included','Woven fabric texture','Wireless charge compatible','Dust & scratch resistant']},
+  {id:1,brand:'Skinarma',name:'Sabre Series',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:690,badge:'hot',image:'',tags:['กันกระแทก'],colors:[{name:'Onyx',hex:'#1A1A1A',matchColors:['ดำ']}],features:['Drop protection']}
 ];
 
 let state={model:'',phoneColor:'',phonehex:'',cat:'all',tag:'',brand:'',search:''};
 let PRODUCTS=[];
 let pendingModel='';
+window.currentSlides=[];
+window.currentLightboxIndex=0;
 
 async function loadData(){
   try{
@@ -361,20 +349,15 @@ async function loadData(){
         colors,features:[f.f1,f.f2,f.f3,f.f4].filter(Boolean)};
     });
     renderAllFilters();
-  }catch(e){console.warn('Airtable load failed, using fallback:',e);PRODUCTS=FALLBACK;}
+  }catch(e){console.warn('Airtable failed, fallback used:',e);PRODUCTS=FALLBACK;}
   renderAllFilters();
 }
 
 function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
-
-
 function previewModel(model,el){
   document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
-  if(pendingModel!==model){}
   pendingModel=model;
-  
-  
   document.getElementById('confirmBar').style.display='block';
   document.getElementById('confirmLabel').textContent=model;
 }
@@ -384,7 +367,6 @@ function goToCatalog(){
   state.model=pendingModel;
   state.cat='all';state.tag='';state.brand='';state.search='';
   document.getElementById('barModelName').textContent=state.model;
-
   document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
   document.querySelectorAll('[data-tag],[data-brand]').forEach(c=>c.classList.remove('active'));
   document.getElementById('searchInput').value='';
@@ -394,53 +376,38 @@ function goToCatalog(){
 }
 
 function renderAllFilters(){
-  // category cards - use first product image per category
   const cats=[...new Set(PRODUCTS.map(p=>p.cat).filter(Boolean))].sort();
   const catEl=document.getElementById('catCards');
   if(catEl) catEl.innerHTML=cats.map(c=>{
     const first=PRODUCTS.find(p=>p.cat===c&&p.image);
     return `<div class="cat-card" data-cat="${c}" onclick="setCatCard(this,'${c}')">
-      ${first
-        ? `<img class="cat-card-img" src="${first.image}" alt="${c}">`
-        : `<div class="cat-card-img-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/></svg></div>`
-      }
+      ${first ? `<img class="cat-card-img" src="${first.image}" alt="${c}">` : `<div class="cat-card-img-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/></svg></div>`}
       <div class="cat-card-label">${c}</div>
     </div>`;
   }).join('');
 
-  // tags
   const allTags=[...new Set(PRODUCTS.flatMap(p=>p.tags).filter(Boolean))].sort();
   const tagEl=document.getElementById('tagChips');
-  const tagDiv=document.getElementById('tagDivider');
   if(tagEl&&allTags.length){
-    tagEl.innerHTML=allTags.map(t=>
-      `<button class="filter-chip" data-tag="${t}" onclick="setTag(this)">${t}</button>`
-    ).join('');
-    if(tagDiv) tagDiv.style.display='';
+    tagEl.innerHTML=allTags.map(t=>`<button class="filter-chip" data-tag="${t}" onclick="setTag(this)">${t}</button>`).join('');
   }
 
-  // brands
   const brands=[...new Set(PRODUCTS.map(p=>p.brand).filter(Boolean))].sort();
   const brandEl=document.getElementById('brandChips');
-  const brandDiv=document.getElementById('brandDivider');
   if(brandEl&&brands.length){
-    brandEl.innerHTML=brands.map(b=>
-      `<button class="filter-chip brand-chip" data-brand="${b}" onclick="setBrand(this)">${b}</button>`
-    ).join('');
-    if(brandDiv) brandDiv.style.display='';
+    brandEl.innerHTML=brands.map(b=>`<button class="filter-chip brand-chip" data-brand="${b}" onclick="setBrand(this)">${b}</button>`).join('');
   }
 }
+
 function setCatCard(el,cat){
   state.cat=cat;
   document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   renderGrid();
 }
-function setCat(btn){state.cat=btn.dataset.cat;document.querySelectorAll('[data-cat]').forEach(c=>c.classList.toggle('active',c===btn));renderGrid();}
 function setTag(btn){const t=btn.dataset.tag;state.tag=state.tag===t?'':t;document.querySelectorAll('[data-tag]').forEach(c=>c.classList.toggle('active',c.dataset.tag===state.tag));renderGrid();}
 function setBrand(btn){const b=btn.dataset.brand;state.brand=state.brand===b?'':b;document.querySelectorAll('[data-brand]').forEach(c=>c.classList.toggle('active',c.dataset.brand===state.brand));renderGrid();}
 function applyFilters(){state.search=document.getElementById('searchInput').value.toLowerCase();renderGrid();}
-
 function isMatch(p){if(!state.phoneColor)return false;return p.colors.some(c=>c.matchColors&&c.matchColors.includes(state.phoneColor));}
 
 function getFiltered(){
@@ -457,15 +424,14 @@ function getFiltered(){
 function renderGrid(){
   const list=getFiltered();
   document.getElementById('resultsCount').innerHTML=`แสดง <strong>${list.length}</strong> รายการ`;
-  if(!list.length){document.getElementById('catalogGrid').innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยน filter หรือ keyword นะคะ</p></div>';return;}
+  if(!list.length){document.getElementById('catalogGrid').innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยนตัวกรองดูนะครับ</p></div>';return;}
   document.getElementById('catalogGrid').innerHTML=list.map(p=>{
-    const m=false;
-    const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
-    return`<div class="prod-card${m?' color-match':''}" onclick="openModal(${p.id})">
+    const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+    return`<div class="prod-card" onclick="openModal(${p.id})">
       <div class="prod-img">${imgHtml}${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
-        <div class="prod-name">${p.name}</div>
+        <div class="prod-name" title="${p.name}">${p.name}</div>
         <div class="prod-tags">${p.tags.map(t=>`<span class="prod-tag">${t}</span>`).join('')}</div>
         <div class="prod-bottom">
           <div class="prod-price">&#3647;${p.price.toLocaleString()}<sup>.-</sup></div>
@@ -479,20 +445,16 @@ function renderGrid(){
 function openModal(id){
   const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
   const hero=document.getElementById('mHero');
-  const slides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
-  if(slides.length>0){
-    hero.innerHTML=`<div class="slideshow-wrap">
-      <div class="slideshow-main" id="slideshowMain">
-        <img src="${slides[0]}" alt="${p.name}" id="slideImg">
-        ${slides.length>1?`<div class="slide-arrows"><button class="slide-arrow" onclick="prevSlide()">&#8249;</button><button class="slide-arrow" onclick="nextSlide()">&#8250;</button></div>`:''}
-      </div>
-      ${slides.length>1?`<div class="slide-dots">${slides.map((_,i)=>`<div class="slide-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>`:''}
-    </div>`;
-    window._slides=slides;
-    window._slideIdx=0;
+  window.currentSlides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
+  
+  if(window.currentSlides.length>0){
+    hero.innerHTML = window.currentSlides.map((src, idx) => 
+      `<img src="${src}" onclick="openLightbox(${idx})" style="width: 140px; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; background: var(--gray-bg); flex-shrink: 0; cursor: pointer;">`
+    ).join('');
   } else {
-    hero.innerHTML=`<div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+    hero.innerHTML=`<div style="width: 140px; aspect-ratio: 3/4; display:flex; align-items:center; justify-content:center; background:var(--gray-bg); border-radius:10px; flex-shrink:0;"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" style="opacity:0.15"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
   }
+
   document.getElementById('mBrand').textContent=p.brand;
   document.getElementById('mName').textContent=p.name;
   document.getElementById('mModel').textContent=p.model;
@@ -500,23 +462,22 @@ function openModal(id){
   document.getElementById('mTags').innerHTML=p.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
   document.getElementById('mFeatures').innerHTML=p.features.map(f=>`<li>${f}</li>`).join('');
 
-  // Overlay section
   const colors = MODEL_COLORS[state.model] || [];
   const overlaySection = document.getElementById('overlaySection');
   if(overlaySection && p.cutout && colors.length){
     overlaySection.style.display='block';
     document.getElementById('overlayCase').src = p.cutout;
-    // Render color buttons
     document.getElementById('overlayColors').innerHTML = colors.filter(c=>c.img).map((c,i)=>`
       <button class="overlay-color-btn ${i===0?'active':''}" onclick="selectOverlayColor(this,'${c.img}')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:20px;border:1.5px solid ${i===0?'var(--black)':'var(--gray-mid)'}">
         <div style="width:20px;height:20px;border-radius:50%;background:${c.hex};flex-shrink:0"></div>
         <span style="font-size:12px;font-family:'Poppins',sans-serif;font-weight:600">${c.color}</span>
       </button>`).join('');
-    // Set first color image immediately
+    
     const firstColorWithImg = colors.find(c=>c.img);
     if(firstColorWithImg){
       document.getElementById('overlayPhone').src = firstColorWithImg.img;
-    } else if(overlaySection){
+      state.phoneColor = colors[0].color;
+    } else {
       overlaySection.style.display='none';
     }
   } else {
@@ -525,29 +486,40 @@ function openModal(id){
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function goSlide(idx){
-  const slides=window._slides||[];
-  if(!slides.length)return;
-  window._slideIdx=idx;
-  const img=document.getElementById('slideImg');
-  if(img)img.src=slides[idx];
-  document.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-}
-function nextSlide(){
-  const slides=window._slides||[];
-  goSlide((window._slideIdx+1)%slides.length);
-}
-function prevSlide(){
-  const slides=window._slides||[];
-  goSlide((window._slideIdx-1+slides.length)%slides.length);
-}
+
 function selectOverlayColor(btn, imgUrl){
   document.querySelectorAll('.overlay-color-btn').forEach(b=>b.style.borderColor='var(--gray-mid)');
   btn.style.borderColor='var(--black)';
   if(imgUrl) document.getElementById('overlayPhone').src = imgUrl;
 }
+
 function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
 function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
+
+// LIGHTBOX GALLERY
+function openLightbox(index) {
+  window.currentLightboxIndex = index;
+  const lightbox = document.getElementById('lightboxModal');
+  const lightboxImg = document.getElementById('lightboxImage');
+  lightboxImg.src = window.currentSlides[index];
+  lightbox.classList.add('open');
+  document.getElementById('modalBg').classList.add('lightbox-open');
+}
+function closeLightbox() {
+  document.getElementById('lightboxModal').classList.remove('open');
+  document.getElementById('modalBg').classList.remove('lightbox-open');
+}
+function changeLightboxImage(direction) {
+  window.currentLightboxIndex += direction;
+  if(window.currentLightboxIndex < 0) {
+    window.currentLightboxIndex = window.currentSlides.length - 1;
+  } else if(window.currentLightboxIndex >= window.currentSlides.length) {
+    window.currentLightboxIndex = 0;
+  }
+  document.getElementById('lightboxImage').src = window.currentSlides[window.currentLightboxIndex];
+}
+function prevLightboxImage(e) { if(e) e.stopPropagation(); changeLightboxImage(-1); }
+function nextLightboxImage(e) { if(e) e.stopPropagation(); changeLightboxImage(1); }
 
 window.addEventListener('load',async()=>{
   await loadData();
