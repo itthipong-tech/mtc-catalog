@@ -149,7 +149,15 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .overlay-preview{position:relative;width:100%;max-width:280px;margin:0 auto;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;}
 .overlay-phone{position:absolute;width:75%;height:auto;z-index:1;}
 .overlay-case{position:absolute;width:75%;height:auto;z-index:2;}
-.modal-img-side{width:160px;flex-shrink:0;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--gray-bg);}
+.modal-img-side{width:160px;flex-shrink:0;border-radius:10px;overflow:hidden;background:var(--gray-bg);}
+.slideshow-wrap{position:relative;width:160px;}
+.slideshow-main{width:160px;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--gray-bg);position:relative;}
+.slideshow-main img{width:100%;height:100%;object-fit:cover;display:block;}
+.slide-dots{display:flex;gap:4px;justify-content:center;margin-top:6px;}
+.slide-dot{width:5px;height:5px;border-radius:50%;background:var(--gray-mid);cursor:pointer;transition:background 0.2s;}
+.slide-dot.active{background:var(--black);}
+.slide-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;padding:0 4px;pointer-events:none;}
+.slide-arrow{background:rgba(0,0,0,0.4);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;pointer-events:all;display:flex;align-items:center;justify-content:center;}
 .modal-img-side img{width:100%;height:100%;object-fit:cover;}
 .modal-img-placeholder-side{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;}
 .modal-info-side{flex:1;}
@@ -354,7 +362,7 @@ async function loadData(){
       return{id:i+1,brand:f.brand||'',name:f.name||'',model:f.model_display||'',
         models:(f.compatible_models||'').split('|').map(m=>m.trim()).filter(Boolean),
         cat:f.category||'',price:parseInt(f.price)||0,badge:f.badge||null,
-        image:f.image_url||'',cutout:f.case_cutout_url||'',
+        image:f.image_url||'',image2:f.image_url_2||'',image3:f.image_url_3||'',image4:f.image_url_4||'',cutout:f.case_cutout_url||'',
         tags:(f.tags||'').split('|').map(t=>t.trim()).filter(Boolean),
         colors,features:[f.f1,f.f2,f.f3,f.f4].filter(Boolean)};
     });
@@ -484,7 +492,7 @@ function renderGrid(){
   document.getElementById('catalogGrid').innerHTML=list.map(p=>{
     const m=isMatch(p);
     const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
-    return`<div class="prod-card${m?' color-match':''}" onclick="openModal(${p.id})">
+    return`<div class="prod-card${m?' color-match':''}" onclick="openModal(${p.id})" style="cursor:pointer">
       <div class="prod-img">${imgHtml}${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
       <div class="prod-info">
         <div class="prod-brand">${p.brand}</div>
@@ -502,7 +510,20 @@ function renderGrid(){
 function openModal(id){
   const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
   const hero=document.getElementById('mHero');
-  hero.innerHTML=p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`:`<div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+  const slides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
+  if(slides.length>0){
+    hero.innerHTML=`<div class="slideshow-wrap">
+      <div class="slideshow-main" id="slideshowMain">
+        <img src="${slides[0]}" alt="${p.name}" id="slideImg">
+        ${slides.length>1?`<div class="slide-arrows"><button class="slide-arrow" onclick="prevSlide()">&#8249;</button><button class="slide-arrow" onclick="nextSlide()">&#8250;</button></div>`:''}
+      </div>
+      ${slides.length>1?`<div class="slide-dots">${slides.map((_,i)=>`<div class="slide-dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`).join('')}</div>`:''}
+    </div>`;
+    window._slides=slides;
+    window._slideIdx=0;
+  } else {
+    hero.innerHTML=`<div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+  }
   document.getElementById('mBrand').textContent=p.brand;
   document.getElementById('mName').textContent=p.name;
   document.getElementById('mModel').textContent=p.model;
@@ -535,6 +556,22 @@ function openModal(id){
   }
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
+}
+function goSlide(idx){
+  const slides=window._slides||[];
+  if(!slides.length)return;
+  window._slideIdx=idx;
+  const img=document.getElementById('slideImg');
+  if(img)img.src=slides[idx];
+  document.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+function nextSlide(){
+  const slides=window._slides||[];
+  goSlide((window._slideIdx+1)%slides.length);
+}
+function prevSlide(){
+  const slides=window._slides||[];
+  goSlide((window._slideIdx-1+slides.length)%slides.length);
 }
 function selectOverlayColor(btn, imgUrl){
   document.querySelectorAll('.overlay-color-btn').forEach(b=>b.classList.remove('active'));
