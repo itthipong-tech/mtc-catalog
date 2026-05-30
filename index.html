@@ -70,14 +70,22 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .model-name{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:var(--black);text-align:center;line-height:1.3;}
 .model-chip{font-family:'Poppins',sans-serif;font-size:10px;background:var(--yellow);color:var(--black);padding:2px 8px;border-radius:8px;font-weight:700;}
 .confirm-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 20px 20px;background:var(--white);border-top:1px solid var(--gray-mid);display:none;}
-.confirm-btn{width:100%;padding:15px;background:var(--black);color:var(--yellow);border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;text-transform:lowercase;}
+.confirm-btn{width:100%;padding:15px;background:var(--black);color:var(--yellow);border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
 /* CATALOG */
 .model-bar{background:var(--yellow);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:var(--black);text-transform:lowercase;}
+.model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:var(--black);}
 .model-bar-color{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,0.6);font-weight:500;margin-top:2px;}
 .model-bar-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.2);display:none;flex-shrink:0;}
 .change-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--black);background:rgba(0,0,0,0.1);border:none;border-radius:10px;padding:5px 12px;cursor:pointer;}
 .filter-scroll{background:var(--white);padding:12px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
+.cat-card{flex-shrink:0;width:90px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative;}
+.cat-card.active{border-color:var(--black);}
+.cat-card:active{transform:scale(0.96);}
+.cat-card-img{width:90px;height:70px;object-fit:cover;display:block;background:var(--gray-bg);}
+.cat-card-img-placeholder{width:90px;height:70px;background:var(--gray-bg);display:flex;align-items:center;justify-content:center;}
+.cat-card-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.55);color:white;font-size:10px;font-weight:700;padding:4px 6px;text-align:center;font-family:'Poppins',sans-serif;text-transform:lowercase;}
+.cat-all-btn{flex-shrink:0;width:90px;height:70px;border-radius:12px;border:2px solid var(--gray-mid);background:var(--white);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all 0.2s;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--gray-text);}
+.cat-all-btn.active{border-color:var(--black);background:var(--black);color:var(--yellow);}
 .filter-scroll::-webkit-scrollbar{display:none;}
 .filter-chip{padding:6px 14px;border-radius:20px;font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;border:1.5px solid var(--gray-mid);background:var(--white);color:var(--gray-text);cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
 .filter-chip.active{background:var(--black);color:var(--yellow);border-color:var(--black);}
@@ -157,7 +165,8 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;}
 .modal-cta{display:none;}
 </style>
-<script src="config.js"></script>
+<script>// inline token fallback
+window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
 </head>
 <body>
 
@@ -234,10 +243,14 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
     </div>
     <button class="change-btn" onclick="showView('viewPicker')">เปลี่ยนรุ่น</button>
   </div>
-  <div class="filter-scroll">
-    <button class="filter-chip active" data-cat="all" onclick="setCat(this)">ทั้งหมด</button>
-    <div id="catChips" style="display:contents"></div>
-    <div class="filter-divider" id="tagDivider" style="display:none"></div>
+  <div class="filter-scroll" id="catFilterRow">
+    <button class="cat-all-btn active" data-cat="all" onclick="setCatCard(this,'all')">
+      <span style="font-size:16px">▤</span>
+      <span>ทั้งหมด</span>
+    </button>
+    <div id="catCards" style="display:contents"></div>
+  </div>
+  <div class="filter-scroll" id="tagBrandRow" style="padding:8px 16px;">
     <div id="tagChips" style="display:contents"></div>
     <div class="filter-divider" id="brandDivider" style="display:none"></div>
     <div id="brandChips" style="display:contents"></div>
@@ -374,19 +387,19 @@ function previewModel(model,el){
   renderColorPicker(model);
   document.getElementById('colorMatcherBox').scrollIntoView({behavior:'smooth',block:'nearest'});
   document.getElementById('confirmBar').style.display='block';
-  document.getElementById('confirmLabel').textContent=model.toLowerCase();
+  document.getElementById('confirmLabel').textContent=model;
 }
 
 function goToCatalog(){
   if(!pendingModel)return;
   state.model=pendingModel;
   state.cat='all';state.tag='';state.brand='';state.search='';
-  document.getElementById('barModelName').textContent=state.model.toLowerCase();
+  document.getElementById('barModelName').textContent=state.model;
   const dot=document.getElementById('barColorDot');
   const nameEl=document.getElementById('barColorName');
   if(state.phoneColor){dot.style.display='block';dot.style.background=state.phonehex;nameEl.textContent=state.phoneColor;document.getElementById('matchBadge').classList.add('show');}
   else{dot.style.display='none';nameEl.textContent='';document.getElementById('matchBadge').classList.remove('show');}
-  document.querySelectorAll('[data-cat]').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
+  document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
   document.querySelectorAll('[data-tag],[data-brand]').forEach(c=>c.classList.remove('active'));
   document.getElementById('searchInput').value='';
   showView('viewCatalog');
@@ -394,12 +407,19 @@ function goToCatalog(){
 }
 
 function renderAllFilters(){
-  // categories
+  // category cards - use first product image per category
   const cats=[...new Set(PRODUCTS.map(p=>p.cat).filter(Boolean))].sort();
-  const catEl=document.getElementById('catChips');
-  if(catEl) catEl.innerHTML=cats.map(c=>
-    `<button class="filter-chip" data-cat="${c}" onclick="setCat(this)">${c}</button>`
-  ).join('');
+  const catEl=document.getElementById('catCards');
+  if(catEl) catEl.innerHTML=cats.map(c=>{
+    const first=PRODUCTS.find(p=>p.cat===c&&p.image);
+    return `<div class="cat-card" data-cat="${c}" onclick="setCatCard(this,'${c}')">
+      ${first
+        ? `<img class="cat-card-img" src="${first.image}" alt="${c}">`
+        : `<div class="cat-card-img-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/></svg></div>`
+      }
+      <div class="cat-card-label">${c}</div>
+    </div>`;
+  }).join('');
 
   // tags
   const allTags=[...new Set(PRODUCTS.flatMap(p=>p.tags).filter(Boolean))].sort();
@@ -422,6 +442,12 @@ function renderAllFilters(){
     ).join('');
     if(brandDiv) brandDiv.style.display='';
   }
+}
+function setCatCard(el,cat){
+  state.cat=cat;
+  document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid();
 }
 function setCat(btn){state.cat=btn.dataset.cat;document.querySelectorAll('[data-cat]').forEach(c=>c.classList.toggle('active',c===btn));renderGrid();}
 function setTag(btn){const t=btn.dataset.tag;state.tag=state.tag===t?'':t;document.querySelectorAll('[data-tag]').forEach(c=>c.classList.toggle('active',c.dataset.tag===state.tag));renderGrid();}
