@@ -139,6 +139,16 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .hero-placeholder{display:none;}
 .modal-body{padding:16px 18px 36px;}
 .modal-inner{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;}
+.overlay-section{background:var(--gray-bg);border-radius:14px;padding:16px;margin-bottom:16px;}
+.overlay-title{font-size:12px;font-weight:700;color:var(--gray-text);text-transform:uppercase;letter-spacing:1px;font-family:'Poppins',sans-serif;margin-bottom:12px;}
+.overlay-colors{display:flex;gap:8px;margin-bottom:14px;}
+.overlay-color-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;}
+.overlay-swatch{width:32px;height:32px;border-radius:50%;border:2.5px solid transparent;transition:all 0.2s;box-shadow:0 0 0 1px rgba(0,0,0,0.12);}
+.overlay-color-btn.active .overlay-swatch{border-color:var(--black);}
+.overlay-color-btn span{font-size:10px;color:var(--gray-text);font-weight:500;}
+.overlay-preview{position:relative;width:100%;max-width:280px;margin:0 auto;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;}
+.overlay-phone{position:absolute;width:75%;height:auto;z-index:1;}
+.overlay-case{position:absolute;width:75%;height:auto;z-index:2;}
 .modal-img-side{width:160px;flex-shrink:0;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--gray-bg);}
 .modal-img-side img{width:100%;height:100%;object-fit:cover;}
 .modal-img-placeholder-side{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;}
@@ -298,10 +308,10 @@ const AIRTABLE_TABLE = 'tblpHdM3GcpPjUix3';
 const AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || '';
 
 const MODEL_COLORS = {
-  'iPhone 17':        [{color:'ดำ',hex:'#1C1C1E'},{color:'ขาว',hex:'#F2F2F0'},{color:'ฟ้าหมอก',hex:'#9EC4CC'},{color:'ลาเวนเดอร์',hex:'#C4BEDB'}],
-  'iPhone 17 Plus':   [{color:'ดำ',hex:'#1C1C1E'},{color:'ขาว',hex:'#F2F2F0'},{color:'ฟ้าหมอก',hex:'#9EC4CC'},{color:'ลาเวนเดอร์',hex:'#C4BEDB'}],
-  'iPhone 17 Pro':    [{color:'เงิน',hex:'#E6E2D8'},{color:'น้ำเงินเข้ม',hex:'#2B3A52'},{color:'ส้มคอสมิก',hex:'#C0693A'}],
-  'iPhone 17 Pro Max':[{color:'เงิน',hex:'#E6E2D8'},{color:'น้ำเงินเข้ม',hex:'#2B3A52'},{color:'ส้มคอสมิก',hex:'#C0693A'}],
+  'iPhone 17':        [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
+  'iPhone 17 Plus':   [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
+  'iPhone 17 Pro':    [{color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/NnY85jjC/i-Phone-17-Promax-Silver.png'},{color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/XfrfVLGK/47a2de26-d276-400f-8074-2d6c19a78cf3.png'},{color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/5grVcGK8/1017f444-8ac4-4f7a-9053-d4fe9e14d71f.png'}],
+  'iPhone 17 Pro Max':[{color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/NnY85jjC/i-Phone-17-Promax-Silver.png'},{color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/XfrfVLGK/47a2de26-d276-400f-8074-2d6c19a78cf3.png'},{color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/5grVcGK8/1017f444-8ac4-4f7a-9053-d4fe9e14d71f.png'}],
 };
 
 const FALLBACK = [
@@ -344,7 +354,7 @@ async function loadData(){
       return{id:i+1,brand:f.brand||'',name:f.name||'',model:f.model_display||'',
         models:(f.compatible_models||'').split('|').map(m=>m.trim()).filter(Boolean),
         cat:f.category||'',price:parseInt(f.price)||0,badge:f.badge||null,
-        image:f.image_url||'',
+        image:f.image_url||'',cutout:f.case_cutout_url||'',
         tags:(f.tags||'').split('|').map(t=>t.trim()).filter(Boolean),
         colors,features:[f.f1,f.f2,f.f3,f.f4].filter(Boolean)};
     });
@@ -505,8 +515,31 @@ function openModal(id){
     const rating=good?`เข้ากับ ${state.phoneColor} ของคุณ`:(c.matchColors&&c.matchColors.length?`เข้ากับ ${c.matchColors.slice(0,2).join(', ')}`:'เหมาะกับทุกสี');
     return`<div class="match-item ${good?'good':'neutral'}"><div class="match-dot-big" style="background:${c.hex}"></div><div><div class="match-color-name">${c.name}</div><div class="match-rating">${rating}</div><div class="match-stars">${stars}</div></div></div>`;
   }).join('');
+  // Overlay section
+  const colors = MODEL_COLORS[state.model] || [];
+  const overlaySection = document.getElementById('overlaySection');
+  if(p.cutout && colors.length){
+    overlaySection.style.display='block';
+    document.getElementById('overlayCase').src = p.cutout;
+    // Render color buttons
+    document.getElementById('overlayColors').innerHTML = colors.map((c,i)=>`
+      <button class="overlay-color-btn ${i===0?'active':''}" onclick="selectOverlayColor(this,'${c.img}')">
+        <div class="overlay-swatch" style="background:${c.hex}"></div>
+        <span>${c.color}</span>
+      </button>`).join('');
+    // Set first color
+    if(colors[0].img) document.getElementById('overlayPhone').src = colors[0].img;
+    else overlaySection.style.display='none';
+  } else {
+    overlaySection.style.display='none';
+  }
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
+}
+function selectOverlayColor(btn, imgUrl){
+  document.querySelectorAll('.overlay-color-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(imgUrl) document.getElementById('overlayPhone').src = imgUrl;
 }
 function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
 function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
