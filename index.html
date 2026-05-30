@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>maitreechit. catalog</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Mitr:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'Como';
+  src: url('como-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Como';
+  src: url('como-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Como';
+  src: url('como-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+:root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--gray-bg:#F5F5F5;--gray-mid:#E0E0E0;--gray-text:#888888;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;height:100vh;overflow:hidden;}
+#splash{position:fixed;inset:0;z-index:999;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
+#splash.hide{opacity:0;pointer-events:none;}
+.splash-ring{width:72px;height:72px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:popIn 0.5s cubic-bezier(.175,.885,.32,1.275);}
+.splash-ring svg{width:36px;height:36px;}
+.splash-logo{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;color:var(--black);text-transform:lowercase;letter-spacing:-1px;margin-bottom:4px;}
+.splash-logo em{font-style:normal;border-bottom:3px solid var(--black);}
+.splash-tag{font-size:12px;color:rgba(0,0,0,0.5);font-weight:500;letter-spacing:1px;}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.view{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
+.view.active{display:flex;}
+.app-header{background:var(--white);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-top:5px solid var(--yellow);border-bottom:2px solid var(--blue);}
+
+
+.search-wrap{position:relative;}
+.search-input{background:var(--gray-bg);border:1px solid var(--gray-mid);border-radius:20px;padding:8px 14px 8px 32px;color:var(--black);font-family:'Mitr',sans-serif;font-size:13px;width:185px;outline:none;transition:border-color 0.2s;}
+.search-input::placeholder{color:var(--gray-text);}
+.search-input:focus{border-color:var(--blue);}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-text);font-size:13px;}
+/* PICKER */
+.picker-body{flex:1;overflow-y:auto;padding:24px 20px 100px;}
+.picker-title{font-size:24px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:4px;}
+
+.picker-sub{font-size:13px;color:var(--gray-text);margin-bottom:22px;font-weight:400;}
+.color-matcher{background:var(--gray-bg);border-radius:14px;padding:16px;margin-bottom:22px;border:1.5px solid var(--gray-mid);transition:border-color 0.2s;}
+.color-matcher.active{border-color:var(--black);}
+.color-matcher-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:10px;}
+.color-matcher-title span{color:var(--gray-text);font-weight:400;}
+.iphone-colors{display:flex;gap:10px;flex-wrap:wrap;}
+.color-placeholder{font-size:12px;color:var(--gray-text);padding:2px 0;}
+.iphone-color-btn{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;background:none;border:none;}
+.iphone-color-swatch{width:38px;height:38px;border-radius:50%;border:2.5px solid transparent;transition:all 0.2s;box-shadow:0 0 0 1px rgba(0,0,0,0.12);}
+.iphone-color-btn.active .iphone-color-swatch{border-color:var(--black);box-shadow:0 0 0 3px rgba(0,0,0,0.1);}
+.iphone-color-btn span{font-size:10px;color:var(--gray-text);font-weight:500;}
+.series-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-text);margin-bottom:12px;}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.model-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:16px;padding:18px 12px 14px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.model-card:active{transform:scale(0.97);}
+.model-card.selected{border-color:var(--black);background:var(--gray-bg);}
+.model-icon{width:44px;height:58px;display:flex;align-items:center;justify-content:center;}
+.model-icon svg{width:100%;height:100%;color:var(--black);}
+.model-name{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:var(--black);text-align:center;line-height:1.3;}
+.model-chip{font-family:'Poppins',sans-serif;font-size:10px;background:var(--yellow);color:var(--black);padding:2px 8px;border-radius:8px;font-weight:700;}
+.confirm-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 20px 20px;background:var(--white);border-top:1px solid var(--gray-mid);display:none;}
+.confirm-btn{width:100%;padding:15px;background:var(--black);color:var(--yellow);border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;cursor:pointer;text-transform:lowercase;}
+/* CATALOG */
+.model-bar{background:var(--yellow);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:var(--black);text-transform:lowercase;}
+.model-bar-color{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,0.6);font-weight:500;margin-top:2px;}
+.model-bar-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.2);display:none;flex-shrink:0;}
+.change-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--black);background:rgba(0,0,0,0.1);border:none;border-radius:10px;padding:5px 12px;cursor:pointer;}
+.filter-scroll{background:var(--white);padding:12px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
+.filter-scroll::-webkit-scrollbar{display:none;}
+.filter-chip{padding:6px 14px;border-radius:20px;font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;border:1.5px solid var(--gray-mid);background:var(--white);color:var(--gray-text);cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
+.filter-chip.active{background:var(--black);color:var(--yellow);border-color:var(--black);}
+.filter-chip.brand-chip.active{background:var(--blue);color:var(--black);border-color:var(--blue);}
+.filter-divider{width:1px;background:var(--gray-mid);margin:4px 2px;flex-shrink:0;}
+.results-row{padding:8px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
+.results-count{font-size:12px;color:var(--gray-text);}
+.results-count strong{color:var(--black);}
+.color-match-badge{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;background:var(--yellow);color:var(--black);padding:3px 10px;border-radius:10px;display:none;align-items:center;}
+.color-match-badge.show{display:flex;}
+.catalog-grid{flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;}
+.prod-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.15s;position:relative;}
+.prod-card:active{transform:scale(0.97);}
+.prod-card.color-match{border-color:var(--black);}
+.prod-card.color-match::before{content:'เข้ากัน';position:absolute;top:8px;right:8px;background:var(--yellow);color:var(--black);font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px;z-index:2;}
+.prod-img{background:var(--gray-bg);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.prod-img img{width:100%;height:100%;object-fit:cover;}
+.prod-img-placeholder{width:55%;height:55%;opacity:0.15;}
+.prod-img-placeholder svg{width:100%;height:100%;}
+.prod-badge{position:absolute;top:8px;left:8px;padding:3px 7px;border-radius:7px;font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;}
+.badge-new{background:var(--blue);color:var(--black);}
+.badge-hot{background:var(--yellow);color:var(--black);}
+.badge-sale{background:#FF4444;color:white;}
+.prod-info{padding:10px;}
+.prod-brand{font-family:'Poppins',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:2px;}
+.prod-name{font-size:13px;font-weight:600;line-height:1.3;margin-bottom:4px;}
+.prod-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;}
+.prod-tag{font-size:9px;font-weight:500;padding:2px 6px;border-radius:6px;background:var(--gray-bg);color:var(--gray-text);}
+.prod-bottom{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-family:'Poppins',sans-serif;font-size:15px;font-weight:900;color:var(--black);}
+.prod-price sup{font-size:9px;font-weight:600;}
+.prod-colors{display:flex;gap:3px;}
+.prod-color-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);}
+.no-results{grid-column:1/-1;text-align:center;padding:50px 20px;}
+.no-results h3{font-size:16px;font-weight:600;margin-bottom:6px;}
+.no-results p{font-size:13px;color:var(--gray-text);}
+.loading-state{grid-column:1/-1;text-align:center;padding:50px 20px;}
+.loading-dots{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
+.loading-dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);animation:bounce 0.8s ease infinite;}
+.loading-dot:nth-child(2){animation-delay:0.15s;}
+.loading-dot:nth-child(3){animation-delay:0.3s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal-sheet{background:var(--white);width:100%;max-height:88vh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s cubic-bezier(.32,0,.67,0);position:relative;}
+.modal-bg.open .modal-sheet{transform:translateY(0);}
+.modal-handle{width:32px;height:4px;border-radius:2px;background:var(--gray-mid);margin:10px auto;}
+.modal-close{position:absolute;top:12px;right:16px;background:var(--gray-bg);border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;}
+.modal-hero{display:none;}
+.hero-placeholder{display:none;}
+.modal-body{padding:16px 18px 36px;}
+.modal-inner{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;}
+.modal-img-side{width:160px;flex-shrink:0;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--gray-bg);}
+.modal-img-side img{width:100%;height:100%;object-fit:cover;}
+.modal-img-placeholder-side{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:0.15;}
+.modal-info-side{flex:1;}
+.modal-brand{font-family:'Poppins',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray-text);margin-bottom:3px;}
+.modal-name{font-size:20px;font-weight:600;line-height:1.2;margin-bottom:3px;}
+.modal-model-txt{font-family:'Poppins',sans-serif;font-size:12px;color:var(--gray-text);margin-bottom:12px;}
+.modal-price{font-family:'Poppins',sans-serif;font-size:26px;font-weight:900;margin-bottom:14px;}
+.modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.modal-tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:10px;background:var(--gray-bg);color:var(--black);}
+.match-section{display:none;}
+.match-title{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.match-item{border-radius:10px;padding:8px;display:flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,0.08);}
+.match-item.good{background:rgba(255,228,0,0.12);border-color:rgba(255,228,0,0.3);}
+.match-item.neutral{background:rgba(255,255,255,0.04);}
+.match-dot-big{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);flex-shrink:0;}
+.match-color-name{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--white);}
+.match-rating{font-size:10px;color:rgba(255,255,255,0.45);}
+.match-stars{color:var(--yellow);font-size:10px;font-family:'Poppins',sans-serif;}
+.section-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:10px;}
+.feature-list{list-style:none;margin-bottom:18px;}
+.feature-list li{font-size:13px;padding:8px 0;border-bottom:1px solid var(--gray-mid);display:flex;gap:8px;align-items:flex-start;font-weight:400;}
+.feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;}
+.modal-cta{display:none;}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+
+<div id="splash">
+  <div class="splash-ring">
+    <svg viewBox="0 0 24 24" fill="#FFE400" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+  </div>
+  <img src="logo.svg" alt="maitreechit." style="height:48px;object-fit:contain;margin-bottom:6px;">
+  <div class="splash-tag">always your friend.</div>
+</div>
+
+<!-- PICKER VIEW -->
+<div id="viewPicker" class="view">
+  <div class="app-header">
+    <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
+    <div style="font-family:'Poppins',sans-serif;font-size:11px;color:var(--gray-text);font-weight:600">product catalog</div>
+  </div>
+  <div class="picker-body">
+    <div class="picker-title">เลือกรุ่น iPhone ของคุณ</div>
+    <div class="picker-sub">เพื่อดูสินค้าที่เข้ากับเครื่องของคุณ</div>
+
+    <div class="color-matcher" id="colorMatcherBox">
+      <div class="color-matcher-title" id="colorMatcherTitle">สีเครื่องของคุณคือ? <span>(เลือกรุ่นก่อนนะคะ)</span></div>
+      <div class="iphone-colors" id="iphoneColorPicker">
+        <div class="color-placeholder">เลือกรุ่น iPhone ด้านล่างก่อนค่ะ</div>
+      </div>
+    </div>
+
+    <div class="series-label">iPhone 17 Series</div>
+    <div class="model-grid">
+      <div class="model-card" id="card-iPhone 17" onclick="previewModel('iPhone 17',this)">
+        <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="9.5" y1="5.5" x2="14.5" y2="5.5"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
+        <div class="model-name">iPhone 17</div>
+        <div class="model-chip">6.1"</div>
+      </div>
+      <div class="model-card" id="card-iPhone 17 Plus" onclick="previewModel('iPhone 17 Plus',this)">
+        <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="9.5" y1="5.5" x2="14.5" y2="5.5"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
+        <div class="model-name">iPhone 17 Plus</div>
+        <div class="model-chip">6.7"</div>
+      </div>
+      <div class="model-card" id="card-iPhone 17 Pro" onclick="previewModel('iPhone 17 Pro',this)">
+        <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9.5 5h5M10.5 6.5h3"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
+        <div class="model-name">iPhone 17 Pro</div>
+        <div class="model-chip">Pro · 6.3"</div>
+      </div>
+      <div class="model-card" id="card-iPhone 17 Pro Max" onclick="previewModel('iPhone 17 Pro Max',this)">
+        <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M9.5 5h5M10.5 6.5h3"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
+        <div class="model-name">iPhone 17 Pro Max</div>
+        <div class="model-chip">Pro · 6.9"</div>
+      </div>
+    </div>
+  </div>
+  <div class="confirm-bar" id="confirmBar">
+    <button class="confirm-btn" onclick="goToCatalog()">ดูสินค้าสำหรับ <span id="confirmLabel"></span> &rarr;</button>
+  </div>
+</div>
+
+<!-- CATALOG VIEW -->
+<div id="viewCatalog" class="view">
+  <div class="app-header">
+    <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
+    <div class="search-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input class="search-input" type="text" placeholder="ค้นหาสินค้า..." id="searchInput" oninput="applyFilters()">
+    </div>
+  </div>
+  <div class="model-bar">
+    <div>
+      <div class="model-bar-name" id="barModelName"></div>
+      <div class="model-bar-color">
+        <div class="model-bar-dot" id="barColorDot"></div>
+        <span id="barColorName"></span>
+      </div>
+    </div>
+    <button class="change-btn" onclick="showView('viewPicker')">เปลี่ยนรุ่น</button>
+  </div>
+  <div class="filter-scroll">
+    <button class="filter-chip active" data-cat="all" onclick="setCat(this)">ทั้งหมด</button>
+    <div id="catChips" style="display:contents"></div>
+    <div class="filter-divider" id="tagDivider" style="display:none"></div>
+    <div id="tagChips" style="display:contents"></div>
+    <div class="filter-divider" id="brandDivider" style="display:none"></div>
+    <div id="brandChips" style="display:contents"></div>
+  </div>
+  <div class="results-row">
+    <div class="results-count" id="resultsCount">กำลังโหลด...</div>
+    <div class="color-match-badge" id="matchBadge">จับคู่สีเครื่องอยู่</div>
+  </div>
+  <div class="catalog-grid" id="catalogGrid">
+    <div class="loading-state"><div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div><div style="font-size:13px;color:var(--gray-text)">กำลังโหลดสินค้า...</div></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="handleModalClick(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    <div class="modal-body">
+      <div class="modal-inner">
+        <div class="modal-img-side" id="mHero">
+          <div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>
+        </div>
+        <div class="modal-info-side">
+          <div class="modal-brand" id="mBrand"></div>
+          <div class="modal-name" id="mName"></div>
+          <div class="modal-model-txt" id="mModel"></div>
+          <div class="modal-price" id="mPrice"></div>
+          <div class="modal-tags" id="mTags"></div>
+        </div>
+      </div>
+      <div class="match-section"><div class="match-title">จับคู่กับสีเครื่องของคุณ</div><div class="match-grid" id="mMatchGrid"></div></div>
+      <div class="section-label">รายละเอียด</div>
+      <ul class="feature-list" id="mFeatures"></ul>
+      <button class="modal-cta">สนใจสินค้านี้ — แจ้ง PC staff</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── AIRTABLE CONFIG ──
+// Token โหลดจาก config.js แยกต่างหาก ไม่ฝังใน HTML
+const AIRTABLE_BASE  = 'appuDsqo3ODV9r4Ym';
+const AIRTABLE_TABLE = 'tblpHdM3GcpPjUix3';
+const AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || '';
+
+const MODEL_COLORS = {
+  'iPhone 17':        [{color:'ดำ',hex:'#1C1C1E'},{color:'ขาว',hex:'#F2F2F0'},{color:'ฟ้าหมอก',hex:'#9EC4CC'},{color:'ลาเวนเดอร์',hex:'#C4BEDB'}],
+  'iPhone 17 Plus':   [{color:'ดำ',hex:'#1C1C1E'},{color:'ขาว',hex:'#F2F2F0'},{color:'ฟ้าหมอก',hex:'#9EC4CC'},{color:'ลาเวนเดอร์',hex:'#C4BEDB'}],
+  'iPhone 17 Pro':    [{color:'เงิน',hex:'#E6E2D8'},{color:'น้ำเงินเข้ม',hex:'#2B3A52'},{color:'ส้มคอสมิก',hex:'#C0693A'}],
+  'iPhone 17 Pro Max':[{color:'เงิน',hex:'#E6E2D8'},{color:'น้ำเงินเข้ม',hex:'#2B3A52'},{color:'ส้มคอสมิก',hex:'#C0693A'}],
+};
+
+const FALLBACK = [
+  {id:1,brand:'Skinarma',name:'Sabre Series',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:690,badge:'hot',image:'',tags:['กันกระแทก'],colors:[{name:'Onyx',hex:'#1A1A1A',matchColors:['ดำ']},{name:'Frost',hex:'#E8E8E8',matchColors:['ขาว','ฟ้าหมอก','ลาเวนเดอร์']},{name:'Yellow',hex:'#FFE400',matchColors:['ฟ้าหมอก']},{name:'Coral',hex:'#FF6B6B',matchColors:['ลาเวนเดอร์']}],features:['Military-grade drop protection 2.1m','Dual-layer TPU + Polycarbonate','Tactile button covers','Raised lip screen protection']},
+  {id:2,brand:'Skinarma',name:'Sheer Mag',model:'iPhone 17 Pro / Pro Max',models:['iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:890,badge:'new',image:'',tags:['บาง','MagSafe','ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['เงิน','น้ำเงินเข้ม','ส้มคอสมิก']},{name:'Black',hex:'#1A1A1A',matchColors:['น้ำเงินเข้ม']},{name:'Blue',hex:'#45F1FF',matchColors:['น้ำเงินเข้ม']}],features:['MagSafe 15W compatible','Ultra-thin 1.2mm','Anti-scratch coating','Wireless charge through case']},
+  {id:3,brand:'Skinarma',name:'Keichou',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:590,badge:null,image:'',tags:['ฟรุ้งฟริ้ง'],colors:[{name:'Purple',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์','ฟ้าหมอก']},{name:'Pink',hex:'#E5989B',matchColors:['ลาเวนเดอร์']},{name:'Black',hex:'#1A1A1A',matchColors:['ดำ']},{name:'White',hex:'#F5F5F5',matchColors:['ขาว']}],features:['Anti-shock bumper design','Japanese aesthetic pattern','Screen lip 1.5mm','Microfiber inner lining']},
+  {id:4,brand:'Skinarma',name:'Saiji Strap',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:490,badge:null,image:'',tags:['MagSafe','สายคล้อง'],colors:[{name:'Yellow',hex:'#FFE400',matchColors:['เงิน','ขาว']},{name:'Blue',hex:'#45F1FF',matchColors:['ฟ้าหมอก','น้ำเงินเข้ม']},{name:'Coral',hex:'#FF6B6B',matchColors:['ส้มคอสมิก']},{name:'Purple',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์','น้ำเงินเข้ม']}],features:['MagSafe attach & detach','Adjustable strap','Drop-proof grip ring','Lightweight 25g']},
+  {id:5,brand:'Laut',name:'Crystal Necklace',model:'iPhone 17 Pro',models:['iPhone 17 Pro'],cat:'เคส',price:1290,badge:'new',image:'',tags:['ฟรุ้งฟริ้ง','สายคล้อง'],colors:[{name:'Crystal',hex:'#F8F8F8',matchColors:['เงิน']},{name:'Gold',hex:'#FFD700',matchColors:['เงิน','ส้มคอสมิก']},{name:'Rose',hex:'#FF69B4',matchColors:[]}],features:['Real Swarovski elements','Detachable necklace chain 60cm','Shock-absorbing TPU','Fashion statement piece']},
+  {id:6,brand:'Laut',name:'Huex Reflect',model:'iPhone 17 / 17 Pro',models:['iPhone 17','iPhone 17 Pro'],cat:'เคส',price:890,badge:null,image:'',tags:['ฟรุ้งฟริ้ง','บาง'],colors:[{name:'Sky',hex:'#45F1FF',matchColors:['ฟ้าหมอก','น้ำเงินเข้ม']},{name:'Lilac',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์']},{name:'Blush',hex:'#E5989B',matchColors:['ลาเวนเดอร์','เงิน']}],features:['Iridescent reflective finish','Slim profile 1.5mm','Anti-yellowing material','Drop protection 2m']},
+  {id:7,brand:'Laut',name:'Huex Pastels',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:790,badge:null,image:'',tags:['ฟรุ้งฟริ้ง','บาง'],colors:[{name:'Mint',hex:'#B5EAD7',matchColors:['ฟ้าหมอก','ขาว']},{name:'Lilac',hex:'#C7B8EA',matchColors:['ลาเวนเดอร์']},{name:'Yellow',hex:'#FFDAC1',matchColors:['ขาว']}],features:['Soft pastel tones','Flexible TPU','Slim fit','Wireless charge compatible']},
+  {id:8,brand:'Laut',name:'Crystal Screen',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'กระจก',price:590,badge:null,image:'',tags:['ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['ดำ','ขาว','ฟ้าหมอก','ลาเวนเดอร์','เงิน','น้ำเงินเข้ม','ส้มคอสมิก']}],features:['9H tempered glass','Anti-fingerprint coating','Full edge-to-edge coverage','Easy install kit']},
+  {id:9,brand:'Amzginthing',name:'AeroShield Pro',model:'iPhone 17 Series',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'กระจก',price:390,badge:'sale',image:'',tags:['ใส','กันกระแทก'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['ดำ','ขาว','ฟ้าหมอก','ลาเวนเดอร์','เงิน','น้ำเงินเข้ม','ส้มคอสมิก']}],features:['HD clarity 99.9%','Shatter-proof glass','Anti-blue light option','Self-healing surface']},
+  {id:10,brand:'Amzginthing',name:'MagLink Wallet',model:'MagSafe Universal',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:690,badge:'new',image:'',tags:['MagSafe'],colors:[{name:'Black',hex:'#1A1A1A',matchColors:['ดำ','น้ำเงินเข้ม']},{name:'Tan',hex:'#C8975A',matchColors:['เงิน','ส้มคอสมิก']},{name:'Forest',hex:'#1a6b3c',matchColors:['ฟ้าหมอก']}],features:['Holds 3 cards + cash','MagSafe snap','RFID blocking','Genuine leather']},
+  {id:11,brand:'JTLegend',name:'Hybrid Cushion',model:'iPhone 17 Pro Max',models:['iPhone 17 Pro Max'],cat:'เคส',price:690,badge:null,image:'',tags:['กันกระแทก','ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['เงิน','น้ำเงินเข้ม','ส้มคอสมิก']},{name:'Black',hex:'#1A1A1A',matchColors:['น้ำเงินเข้ม']}],features:['Airbag corner protection','MIL-STD-810G certified','Wireless charging friendly','Crystal clear back']},
+  {id:12,brand:'JTLegend',name:'Amos AirPods Pro',model:'AirPods Pro',models:['iPhone 17','iPhone 17 Plus','iPhone 17 Pro','iPhone 17 Pro Max'],cat:'AirPods',price:690,badge:null,image:'',tags:['กันกระแทก'],colors:[{name:'Black',hex:'#1A1A1A',matchColors:['ดำ','น้ำเงินเข้ม']},{name:'Tan',hex:'#C8975A',matchColors:['เงิน','ส้มคอสมิก']},{name:'White',hex:'#F5F5F5',matchColors:['ขาว','เงิน']}],features:['Carabiner included','Woven fabric texture','Wireless charge compatible','Dust & scratch resistant']},
+];
+
+let state={model:'',phoneColor:'',phonehex:'',cat:'all',tag:'',brand:'',search:''};
+let PRODUCTS=[];
+let pendingModel='';
+
+async function loadData(){
+  try{
+    let allRecords=[];
+    let offset='';
+    let maxPages=10;
+    do{
+      const url=`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?pageSize=100${offset?'&offset='+offset:''}`;
+      const res=await fetch(url,{headers:{Authorization:`Bearer ${AIRTABLE_TOKEN}`}});
+      const data=await res.json();
+      if(data.error){throw new Error(data.error.message);}
+      allRecords=[...allRecords,...(data.records||[])];
+      offset=(data.records&&data.records.length===100&&data.offset)?data.offset:'';
+      maxPages--;
+    }while(offset&&maxPages>0);
+    if(!allRecords.length){PRODUCTS=FALLBACK;renderAllFilters();return;}
+    PRODUCTS=allRecords.map((rec,i)=>{
+      const f=rec.fields;
+      let colors=[];try{colors=JSON.parse(f.colors_json||'[]');}catch(e){}
+      return{id:i+1,brand:f.brand||'',name:f.name||'',model:f.model_display||'',
+        models:(f.compatible_models||'').split('|').map(m=>m.trim()).filter(Boolean),
+        cat:f.category||'',price:parseInt(f.price)||0,badge:f.badge||null,
+        image:f.image_url||'',
+        tags:(f.tags||'').split('|').map(t=>t.trim()).filter(Boolean),
+        colors,features:[f.f1,f.f2,f.f3,f.f4].filter(Boolean)};
+    });
+    renderAllFilters();
+  }catch(e){console.warn('Airtable load failed, using fallback:',e);PRODUCTS=FALLBACK;}
+  renderAllFilters();
+}
+
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function renderColorPicker(model){
+  const colors=MODEL_COLORS[model]||[];
+  const picker=document.getElementById('iphoneColorPicker');
+  const title=document.getElementById('colorMatcherTitle');
+  document.getElementById('colorMatcherBox').classList.add('active');
+  if(!colors.length){picker.innerHTML='<div class="color-placeholder">ไม่มีข้อมูลสีค่ะ</div>';return;}
+  title.innerHTML=`สีเครื่อง <strong>${model}</strong> ของคุณคือ? <span>(ไม่บังคับ)</span>`;
+  picker.innerHTML=colors.map(c=>`
+    <button class="iphone-color-btn" data-color="${c.color}" data-hex="${c.hex}" onclick="selectPhoneColor(this)">
+      <div class="iphone-color-swatch" style="background:${c.hex}${c.hex==='#F2F2F0'?';box-shadow:0 0 0 1.5px #ccc inset':''}"></div>
+      <span>${c.color}</span>
+    </button>`).join('');
+  if(state.phoneColor&&pendingModel===model){
+    document.querySelectorAll('.iphone-color-btn').forEach(b=>{if(b.dataset.color===state.phoneColor)b.classList.add('active');});
+  }
+}
+
+function selectPhoneColor(btn){
+  document.querySelectorAll('.iphone-color-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.phoneColor=btn.dataset.color;
+  state.phonehex=btn.dataset.hex;
+}
+
+function previewModel(model,el){
+  document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  if(pendingModel!==model){state.phoneColor='';state.phonehex='';}
+  pendingModel=model;
+  renderColorPicker(model);
+  document.getElementById('colorMatcherBox').scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('confirmBar').style.display='block';
+  document.getElementById('confirmLabel').textContent=model.toLowerCase();
+}
+
+function goToCatalog(){
+  if(!pendingModel)return;
+  state.model=pendingModel;
+  state.cat='all';state.tag='';state.brand='';state.search='';
+  document.getElementById('barModelName').textContent=state.model.toLowerCase();
+  const dot=document.getElementById('barColorDot');
+  const nameEl=document.getElementById('barColorName');
+  if(state.phoneColor){dot.style.display='block';dot.style.background=state.phonehex;nameEl.textContent=state.phoneColor;document.getElementById('matchBadge').classList.add('show');}
+  else{dot.style.display='none';nameEl.textContent='';document.getElementById('matchBadge').classList.remove('show');}
+  document.querySelectorAll('[data-cat]').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
+  document.querySelectorAll('[data-tag],[data-brand]').forEach(c=>c.classList.remove('active'));
+  document.getElementById('searchInput').value='';
+  showView('viewCatalog');
+  renderGrid();
+}
+
+function renderAllFilters(){
+  // categories
+  const cats=[...new Set(PRODUCTS.map(p=>p.cat).filter(Boolean))].sort();
+  const catEl=document.getElementById('catChips');
+  if(catEl) catEl.innerHTML=cats.map(c=>
+    `<button class="filter-chip" data-cat="${c}" onclick="setCat(this)">${c}</button>`
+  ).join('');
+
+  // tags
+  const allTags=[...new Set(PRODUCTS.flatMap(p=>p.tags).filter(Boolean))].sort();
+  const tagEl=document.getElementById('tagChips');
+  const tagDiv=document.getElementById('tagDivider');
+  if(tagEl&&allTags.length){
+    tagEl.innerHTML=allTags.map(t=>
+      `<button class="filter-chip" data-tag="${t}" onclick="setTag(this)">${t}</button>`
+    ).join('');
+    if(tagDiv) tagDiv.style.display='';
+  }
+
+  // brands
+  const brands=[...new Set(PRODUCTS.map(p=>p.brand).filter(Boolean))].sort();
+  const brandEl=document.getElementById('brandChips');
+  const brandDiv=document.getElementById('brandDivider');
+  if(brandEl&&brands.length){
+    brandEl.innerHTML=brands.map(b=>
+      `<button class="filter-chip brand-chip" data-brand="${b}" onclick="setBrand(this)">${b}</button>`
+    ).join('');
+    if(brandDiv) brandDiv.style.display='';
+  }
+}
+function setCat(btn){state.cat=btn.dataset.cat;document.querySelectorAll('[data-cat]').forEach(c=>c.classList.toggle('active',c===btn));renderGrid();}
+function setTag(btn){const t=btn.dataset.tag;state.tag=state.tag===t?'':t;document.querySelectorAll('[data-tag]').forEach(c=>c.classList.toggle('active',c.dataset.tag===state.tag));renderGrid();}
+function setBrand(btn){const b=btn.dataset.brand;state.brand=state.brand===b?'':b;document.querySelectorAll('[data-brand]').forEach(c=>c.classList.toggle('active',c.dataset.brand===state.brand));renderGrid();}
+function applyFilters(){state.search=document.getElementById('searchInput').value.toLowerCase();renderGrid();}
+
+function isMatch(p){if(!state.phoneColor)return false;return p.colors.some(c=>c.matchColors&&c.matchColors.includes(state.phoneColor));}
+
+function getFiltered(){
+  return PRODUCTS.filter(p=>{
+    if(!p.models.includes(state.model))return false;
+    if(state.cat!=='all'&&p.cat!==state.cat)return false;
+    if(state.tag&&!p.tags.includes(state.tag))return false;
+    if(state.brand&&p.brand!==state.brand)return false;
+    if(state.search){const s=state.search;if(!p.name.toLowerCase().includes(s)&&!p.brand.toLowerCase().includes(s)&&!p.tags.join(' ').includes(s))return false;}
+    return true;
+  }).sort((a,b)=>(isMatch(b)?1:0)-(isMatch(a)?1:0));
+}
+
+function renderGrid(){
+  const list=getFiltered();
+  document.getElementById('resultsCount').innerHTML=`แสดง <strong>${list.length}</strong> รายการ`;
+  if(!list.length){document.getElementById('catalogGrid').innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยน filter หรือ keyword นะคะ</p></div>';return;}
+  document.getElementById('catalogGrid').innerHTML=list.map(p=>{
+    const m=isMatch(p);
+    const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+    return`<div class="prod-card${m?' color-match':''}" onclick="openModal(${p.id})">
+      <div class="prod-img">${imgHtml}${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
+      <div class="prod-info">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-tags">${p.tags.map(t=>`<span class="prod-tag">${t}</span>`).join('')}</div>
+        <div class="prod-bottom">
+          <div class="prod-price">&#3647;${p.price.toLocaleString()}<sup>.-</sup></div>
+          <div class="prod-colors">${p.colors.map(c=>`<div class="prod-color-dot" style="background:${c.hex}"></div>`).join('')}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id){
+  const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  const hero=document.getElementById('mHero');
+  hero.innerHTML=p.image?`<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`:`<div class="modal-img-placeholder-side"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
+  document.getElementById('mBrand').textContent=p.brand;
+  document.getElementById('mName').textContent=p.name;
+  document.getElementById('mModel').textContent=p.model;
+  document.getElementById('mPrice').textContent=`฿${p.price.toLocaleString()}.-`;
+  document.getElementById('mTags').innerHTML=p.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
+  document.getElementById('mFeatures').innerHTML=p.features.map(f=>`<li>${f}</li>`).join('');
+  document.getElementById('mMatchGrid').innerHTML=p.colors.map(c=>{
+    const good=state.phoneColor&&c.matchColors&&c.matchColors.includes(state.phoneColor);
+    const stars=good?'★★★★★':(c.matchColors&&c.matchColors.length>=4?'★★★★☆':'★★★☆☆');
+    const rating=good?`เข้ากับ ${state.phoneColor} ของคุณ`:(c.matchColors&&c.matchColors.length?`เข้ากับ ${c.matchColors.slice(0,2).join(', ')}`:'เหมาะกับทุกสี');
+    return`<div class="match-item ${good?'good':'neutral'}"><div class="match-dot-big" style="background:${c.hex}"></div><div><div class="match-color-name">${c.name}</div><div class="match-rating">${rating}</div><div class="match-stars">${stars}</div></div></div>`;
+  }).join('');
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
+
+window.addEventListener('load',async()=>{
+  await loadData();
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('hide');
+    setTimeout(()=>document.getElementById('splash').remove(),400);
+    showView('viewPicker');
+  },1400);
+});
+</script>
+</body>
+</html>
