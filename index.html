@@ -27,14 +27,18 @@
 :root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--gray-bg:#F5F5F5;--gray-mid:#E0E0E0;--gray-text:#888888;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;height:100vh;overflow:hidden;}
-#splash{position:fixed;inset:0;z-index:999;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
+
+/* Minimal White Splash Screen */
+#splash{position:fixed;inset:0;z-index:999;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
 .splash-ring{width:72px;height:72px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:popIn 0.5s cubic-bezier(.175,.885,.32,1.275);}
-.splash-ring svg{width:36px;height:36px;}
+/* เปลี่ยนสี SVG เป็นเหลืองเพื่อให้ตัดกับพื้นขาว */
+.splash-ring svg{width:36px;height:36px;fill:var(--yellow);}
 .splash-logo{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;color:var(--black);text-transform:lowercase;letter-spacing:-1px;margin-bottom:4px;}
 .splash-logo em{font-style:normal;border-bottom:3px solid var(--black);}
 .splash-tag{font-size:12px;color:rgba(0,0,0,0.5);font-weight:500;letter-spacing:1px;}
 @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+
 .view{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
 .view.active{display:flex;}
 .app-header{background:var(--white);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-top:5px solid var(--yellow);border-bottom:2px solid var(--blue);}
@@ -116,10 +120,13 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
 
 /* MODAL */
-.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:all 0.25s;}
 .modal-bg.open{opacity:1;pointer-events:all;}
 .modal-sheet{background:var(--white);width:100%;max-height:88vh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s cubic-bezier(.32,0,.67,0);position:relative;}
 .modal-bg.open .modal-sheet{transform:translateY(0);}
+/* Force Touch style scaling for background modal */
+.modal-bg.open.lightbox-open .modal-sheet{transform:scale(0.95);opacity:0.8;}
+
 .modal-handle{width:32px;height:4px;border-radius:2px;background:var(--gray-mid);margin:10px auto;}
 .modal-close{position:absolute;top:12px;right:16px;background:var(--gray-bg);border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;}
 .modal-body{padding:16px 18px 36px;}
@@ -142,6 +149,12 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
 .feature-list li{font-size:13px;padding:8px 0;border-bottom:1px solid var(--gray-mid);display:flex;gap:8px;align-items:flex-start;font-weight:400;}
 .feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;}
 .modal-cta{display:none;}
+
+/* LightBox Image Gallery Modal */
+#lightboxModal {position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s ease;pointer-events:none;}
+#lightboxModal.open {display:flex;opacity:1;pointer-events:all;}
+#lightboxImage {max-width:90%;max-height:90vh;object-fit:contain;border-radius:10px;}
+#lightboxClose {position:absolute;top:20px;right:20px;color:white;font-size:40px;cursor:pointer;}
 </style>
 <script>// inline token fallback
 window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
@@ -150,7 +163,7 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
 
 <div id="splash">
   <div class="splash-ring">
-    <svg viewBox="0 0 24 24" fill="#FFE400" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
   </div>
   <img src="logo.svg" alt="maitreechit." style="height:48px;object-fit:contain;margin-bottom:6px;">
   <div class="splash-tag">always your friend.</div>
@@ -252,10 +265,10 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
         <div style="font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--gray-text);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">ลองใส่เคสกับเครื่องของคุณ</div>
         <div style="display:flex;gap:12px;align-items:center">
           <div id="overlayColors" style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"></div>
-         <div style="position:relative;flex:1;aspect-ratio:3/4;max-width:240px;margin:0 auto;overflow:hidden;">
-          <img id="overlayPhone" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;transform:scale(1.65);">
-          <img id="overlayCase" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:2;transform:scale(1.65);">
-        </div>
+          <div style="position:relative;flex:1;aspect-ratio:3/4;max-width:240px;margin:0 auto;overflow:hidden;">
+            <img id="overlayPhone" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:1;transform:scale(1.45);">
+            <img id="overlayCase" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:2;transform:scale(1.45);">
+          </div>
         </div>
       </div>
 
@@ -266,33 +279,32 @@ window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0
   </div>
 </div>
 
+<div id="lightboxModal" onclick="closeLightbox()">
+  <span id="lightboxClose">&times;</span>
+  <img id="lightboxImage" src="" alt="ขยายรูปภาพ">
+</div>
+
 <script>
 // ── AIRTABLE CONFIG ──
 const AIRTABLE_BASE  = 'appuDsqo3ODV9r4Ym';
 const AIRTABLE_TABLE = 'tblpHdM3GcpPjUix3';
 const AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || '';
 
-// ------------------- เปลี่ยนลิงก์รูปใหม่ที่นี่ครับ -------------------
 const MODEL_COLORS = {
-  'iPhone 17':        [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
-  'iPhone 17 Plus':   [{color:'ดำ',hex:'#1C1C1E',img:''},{color:'ขาว',hex:'#F2F2F0',img:''},{color:'ฟ้าหมอก',hex:'#9EC4CC',img:''},{color:'ลาเวนเดอร์',hex:'#C4BEDB',img:''}],
   'iPhone 17 Pro':    [
     {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/VYFxHQGP/Silver.png'},
     {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/358MH6ZK/Blue.png'},
     {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/rRg7QS9x/Orange.png'}
   ],
   'iPhone 17 Pro Max':[
-    {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/yBh7LJvf/Untitled-design-3.png'},
-    {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/QvjQHGWx/Untitled-design-1.png'},
-    {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/Df3Gdz68/Untitled-design-2.png'}
+    {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/VYFxHQGP/Silver.png'},
+    {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/358MH6ZK/Blue.png'},
+    {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/rRg7QS9x/Orange.png'}
   ],
 };
-// ----------------------------------------------------------------
 
 const FALLBACK = [
   {id:1,brand:'Skinarma',name:'Sabre Series',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:690,badge:'hot',image:'',tags:['กันกระแทก'],colors:[{name:'Onyx',hex:'#1A1A1A',matchColors:['ดำ']},{name:'Frost',hex:'#E8E8E8',matchColors:['ขาว','ฟ้าหมอก','ลาเวนเดอร์']},{name:'Yellow',hex:'#FFE400',matchColors:['ฟ้าหมอก']},{name:'Coral',hex:'#FF6B6B',matchColors:['ลาเวนเดอร์']}],features:['Military-grade drop protection 2.1m','Dual-layer TPU + Polycarbonate','Tactile button covers','Raised lip screen protection']},
-  {id:2,brand:'Skinarma',name:'Sheer Mag',model:'iPhone 17 Pro / Pro Max',models:['iPhone 17 Pro','iPhone 17 Pro Max'],cat:'MagSafe',price:890,badge:'new',image:'',tags:['บาง','MagSafe','ใส'],colors:[{name:'Clear',hex:'#F0F0F0',matchColors:['เงิน','น้ำเงินเข้ม','ส้มคอสมิก']},{name:'Black',hex:'#1A1A1A',matchColors:['น้ำเงินเข้ม']},{name:'Blue',hex:'#45F1FF',matchColors:['น้ำเงินเข้ม']}],features:['MagSafe 15W compatible','Ultra-thin 1.2mm','Anti-scratch coating','Wireless charge through case']},
-  {id:3,brand:'Skinarma',name:'Keichou',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:590,badge:null,image:'',tags:['ฟรุ้งฟริ้ง'],colors:[{name:'Purple',hex:'#9D8DF1',matchColors:['ลาเวนเดอร์','ฟ้าหมอก']},{name:'Pink',hex:'#E5989B',matchColors:['ลาเวนเดอร์']},{name:'Black',hex:'#1A1A1A',matchColors:['ดำ']},{name:'White',hex:'#F5F5F5',matchColors:['ขาว']}],features:['Anti-shock bumper design','Japanese aesthetic pattern','Screen lip 1.5mm','Microfiber inner lining']},
 ];
 
 let state={model:'',phoneColor:'',phonehex:'',cat:'all',tag:'',brand:'',search:''};
@@ -431,8 +443,9 @@ function openModal(id){
   const slides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
   
   if(slides.length>0){
+    // เพิ่ม cursor: pointer และ onclick เพื่อเปิด LightBox
     hero.innerHTML = slides.map(src => 
-      `<img src="${src}" style="width: 140px; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; background: var(--gray-bg); flex-shrink: 0;">`
+      `<img src="${src}" onclick="openLightbox('${src}')" style="width: 140px; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; background: var(--gray-bg); flex-shrink: 0; cursor: pointer;">`
     ).join('');
   } else {
     hero.innerHTML=`<div style="width: 140px; aspect-ratio: 3/4; display:flex; align-items:center; justify-content:center; background:var(--gray-bg); border-radius:10px; flex-shrink:0;"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" style="opacity:0.15"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
@@ -478,6 +491,22 @@ function selectOverlayColor(btn, imgUrl){
 
 function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
 function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
+
+// LIGHTBOX FUNCTIONS
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightboxModal');
+  const lightboxImg = document.getElementById('lightboxImage');
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+  // เพิ่ม class เพื่อให้ Modal พื้นหลังย่อขนาดลงเล็กน้อย
+  document.getElementById('modalBg').classList.add('lightbox-open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightboxModal').classList.remove('open');
+  // เอา class ออกเพื่อให้ Modal พื้นหลังกลับมาขนาดปกติ
+  document.getElementById('modalBg').classList.remove('lightbox-open');
+}
 
 window.addEventListener('load',async()=>{
   await loadData();
