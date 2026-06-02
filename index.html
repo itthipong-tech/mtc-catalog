@@ -252,9 +252,9 @@ const MODEL_COLORS={
 };
 
 const BANNERS=[
-  {brand:'SKINARMA',text:'protect with style.',bg:'linear-gradient(135deg,#1A1A1A,#333)'},
-  {brand:'LAUT',text:'designed for life.',bg:'linear-gradient(135deg,#2B3A52,#45F1FF)'},
-  {brand:'JTLegend',text:'legendary protection.',bg:'linear-gradient(135deg,#7b3e19,#C0693A)'},
+  {brand:'SKINARMA',text:'protect with style.',bg:'linear-gradient(135deg,#1A1A1A,#333)',img:'https://i.ibb.co/ccHcgZ0N/Homepage-Banner-d50daefe-7a32-4672-a930-8d18a1a9fa98-jpg.webp'},
+  {brand:'LAUT',text:'designed for life.',bg:'linear-gradient(135deg,#2B3A52,#45F1FF)',img:'https://i.ibb.co/tpJjKFds/CRYSTAL-MATTER-X-Homepage-Slider.webp'},
+  {brand:'JTLegend',text:'legendary protection.',bg:'linear-gradient(135deg,#7b3e19,#C0693A)',img:'https://i.ibb.co/bMcXfmWG/2160x.webp'},
   {brand:'amazingthing',text:'amazing protection.',bg:'linear-gradient(135deg,#109648,#1A1A1A)'},
   {brand:'Avocado',text:'cute & protective.',bg:'linear-gradient(135deg,#e5989b,#9d8df1)'},
 ];
@@ -306,10 +306,7 @@ function renderFilters(){
 function renderBanners(){
   const el=document.getElementById('bannerTrack');
   el.innerHTML=BANNERS.map(b=>`<div class="banner-card" style="background:${b.bg}" onclick="setBrandDirect('${b.brand}')">
-    <div class="banner-placeholder">
-      <div class="b-brand">${b.brand}</div>
-      <div class="b-tag">${b.text}</div>
-    </div>
+    ${b.img?`<img src="${b.img}" alt="${b.brand}"><div class="banner-badge">${b.brand}</div>`:`<div class="banner-placeholder"><div class="b-brand">${b.brand}</div><div class="b-tag">${b.text}</div></div>`}
   </div>`).join('');
 }
 
