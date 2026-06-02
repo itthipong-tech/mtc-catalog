@@ -40,7 +40,7 @@ body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 
 .topbar{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0;}
-.topbar-info{font-size:12px;color:var(--muted);font-family:'Poppins',sans-serif;}
+.topbar-info{font-size:12px;color:var(--muted);font-family:'Poppins',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .topbar-info strong{color:var(--black);font-weight:600;}
 .search-wrap{position:relative;}
 .search-input{background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:8px 16px 8px 36px;font-family:'Mitr',sans-serif;font-size:12px;width:220px;outline:none;color:var(--black);transition:border-color 0.2s;}
@@ -75,7 +75,7 @@ body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
 .badge-sale{background:#FF4444;color:var(--white);}
 .card-info{padding:12px 14px;}
 .card-brand{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
-.card-name{font-size:13px;font-weight:500;line-height:1.35;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-name{font-size:13px;font-weight:500;line-height:1.35;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:35px;}
 .card-bottom{display:flex;align-items:center;justify-content:space-between;}
 .card-price{font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;}
 .card-dots{display:flex;gap:3px;}
@@ -127,9 +127,15 @@ body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
 .lb-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;}
 
 @media(max-width:768px){
-  .sidebar{width:180px;}
-  .grid{grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 16px 40px;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:400;width:260px;transform:translateX(-100%);transition:transform 0.3s;box-shadow:none;}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.1);}
+  .sidebar.collapsed{transform:translateX(-100%);}
+  .side-overlay{display:none;position:fixed;inset:0;z-index:399;background:rgba(0,0,0,0.3);}
+  .side-overlay.show{display:block;}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 16px 40px;}
   .banner-card{min-width:220px;height:90px;}
+  .topbar-info{font-size:11px;}
+  .search-input{width:160px;font-size:11px;}
 }
 </style>
 <script>window.AIRTABLE_TOKEN=window.AIRTABLE_TOKEN||"patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
@@ -142,7 +148,8 @@ body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
 </div>
 
 <div class="app" id="app">
-  <aside class="sidebar">
+  <div class="side-overlay" id="sideOverlay" onclick="toggleSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
     <div class="side-top">
       <img src="logo.svg" alt="maitreechit." class="side-logo">
       <div class="side-sub">product catalog</div>
@@ -327,7 +334,16 @@ function setBrandDirect(b){
   document.querySelectorAll('#brandChips .chip').forEach(c=>c.classList.toggle('brand-on',c.textContent===state.brand));
   renderGrid();
 }
-function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('collapsed');}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('sideOverlay');
+  if(window.innerWidth<=768){
+    sb.classList.toggle('open');
+    ov.classList.toggle('show');
+  }else{
+    sb.classList.toggle('collapsed');
+  }
+}
 function applyFilters(){state.search=document.getElementById('searchInput').value.toLowerCase();renderGrid();}
 
 function getFiltered(){
