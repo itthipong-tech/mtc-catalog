@@ -4,292 +4,208 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>maitreechit. catalog</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Mitr:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-@font-face {
-  font-family: 'Como';
-  src: url('como-400.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Como';
-  src: url('como-700.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Como';
-  src: url('como-500.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-}
-:root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--gray-bg:#F6F6F6;--gray-mid:#E0E0E0;--gray-text:#888888;}
+:root{--yellow:#FFE400;--blue:#45F1FF;--black:#1A1A1A;--white:#FFFFFF;--bg:#F7F7F5;--border:#E8E6E1;--muted:#A09E99;--sidebar-w:220px;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;height:100vh;overflow:hidden;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
 
-/* Minimal White Splash Screen */
-#splash{position:fixed;inset:0;z-index:999;background:#FFFEF5;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.4s ease;}
+#splash{position:fixed;inset:0;z-index:999;background:#FFFEF5;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;}
 #splash.hide{opacity:0;pointer-events:none;}
-.splash-tag{font-size:11px;color:rgba(0,0,0,0.35);font-weight:500;letter-spacing:1.5px;margin-top:12px;}
-@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.splash-tag{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:2px;margin-top:14px;}
 
-.view{position:fixed;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--white);}
-.view.active{display:flex;}
-.app-header{background:var(--white);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:0.5px solid var(--gray-mid);}
+.app{display:flex;height:100vh;opacity:0;transition:opacity 0.4s ease;}
+.app.show{opacity:1;}
 
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;scrollbar-width:none;transition:width 0.25s,padding 0.25s,opacity 0.25s;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sidebar.collapsed{width:0;padding:0;overflow:hidden;opacity:0;border-right:none;}
+.side-top{padding:24px 20px 16px;border-bottom:1px solid var(--border);}
+.side-logo{height:44px;object-fit:contain;display:block;margin-bottom:4px;}
+.side-sub{font-family:'Poppins',sans-serif;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+
+.side-section{padding:16px 20px;}
+.side-section+.side-section{border-top:1px solid var(--border);}
+.side-label{font-size:10px;color:var(--muted);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-family:'Poppins',sans-serif;}
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.15s;background:transparent;font-family:'Mitr',sans-serif;font-weight:400;white-space:nowrap;}
+.chip:active{transform:scale(0.95);}
+.chip.on{background:var(--black);color:var(--white);border-color:var(--black);}
+.chip.brand-on{background:var(--blue);color:var(--black);border-color:var(--blue);}
+
+.side-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border);text-align:center;}
+.side-bottom-tag{font-size:10px;color:var(--muted);letter-spacing:1.5px;font-weight:300;}
+
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+.topbar{padding:12px 24px;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0;}
+.topbar-info{font-size:12px;color:var(--muted);font-family:'Poppins',sans-serif;}
+.topbar-info strong{color:var(--black);font-weight:600;}
 .search-wrap{position:relative;}
-.search-input{background:var(--gray-bg);border:1px solid var(--gray-mid);border-radius:20px;padding:8px 14px 8px 32px;color:var(--black);font-family:'Mitr',sans-serif;font-size:13px;width:185px;outline:none;transition:border-color 0.2s;}
-.search-input::placeholder{color:var(--gray-text);}
-.search-input:focus{border-color:var(--blue);}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-text);font-size:13px;}
+.search-input{background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:8px 16px 8px 36px;font-family:'Mitr',sans-serif;font-size:12px;width:220px;outline:none;color:var(--black);transition:border-color 0.2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--black);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
 
-/* PICKER VIEW */
-.picker-body{flex:1;overflow-y:auto;padding:24px 20px 100px;}
-.picker-title{font-size:24px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:4px;}
-.picker-sub{font-size:13px;color:var(--gray-text);margin-bottom:22px;font-weight:400;}
-.series-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-text);margin-bottom:12px;}
-.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.model-card{background:var(--white);border:1.5px solid var(--gray-mid);border-radius:16px;padding:18px 12px 14px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px;}
-.model-card:active{transform:scale(0.97);}
-.model-card.selected{border-color:var(--black);background:var(--gray-bg);}
-.model-icon{width:44px;height:58px;display:flex;align-items:center;justify-content:center;}
-.model-icon svg{width:100%;height:100%;color:var(--black);}
-.model-name{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:var(--black);text-align:center;line-height:1.3;}
-.model-chip{font-family:'Poppins',sans-serif;font-size:10px;background:var(--yellow);color:var(--black);padding:2px 8px;border-radius:8px;font-weight:700;}
-.confirm-bar{position:fixed;bottom:0;left:0;right:0;padding:14px 20px 20px;background:var(--white);border-top:1px solid var(--gray-mid);display:none;}
-.confirm-btn{width:100%;padding:15px;background:var(--white);color:var(--black);border:1.5px solid var(--gray-mid);border-radius:14px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.scroll-area{flex:1;overflow-y:auto;scroll-behavior:smooth;scrollbar-width:none;}
+.scroll-area::-webkit-scrollbar{display:none;}
 
-/* CATALOG VIEW */
-.model-bar{background:var(--gray-bg);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:0.5px solid var(--gray-mid);}
-.model-bar-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:var(--black);display:flex;align-items:center;gap:6px;}
-.model-bar-name::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--yellow);}
-.model-bar-color{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(0,0,0,0.5);font-weight:400;margin-top:2px;}
-.change-btn{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:var(--black);background:transparent;border:1px solid var(--gray-mid);border-radius:10px;padding:5px 12px;cursor:pointer;}
-.filter-scroll{background:var(--white);padding:12px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
-.cat-card{flex-shrink:0;width:90px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative;}
-.cat-card.active{border-color:var(--black);}
-.cat-card-img{width:90px;height:70px;object-fit:cover;display:block;background:var(--gray-bg);}
-.cat-card-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.35);font-size:10px;font-weight:600;font-family:'Poppins',sans-serif;text-transform:capitalize;background:none;}
-.cat-all-btn{flex-shrink:0;width:90px;height:70px;border-radius:12px;border:2px solid var(--gray-mid);background:var(--white);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:all 0.2s;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;color:var(--gray-text);}
-.cat-all-btn.active{border-color:var(--black);background:var(--white);color:var(--black);}
-.filter-scroll::-webkit-scrollbar{display:none;}
-.filter-chip{padding:6px 14px;border-radius:20px;font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;border:1.5px solid var(--gray-mid);background:var(--white);color:var(--gray-text);cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
-.filter-chip.active{background:var(--black);color:var(--white);border-color:var(--black);}
-.filter-chip.brand-chip.active{background:var(--blue);color:var(--black);border-color:var(--blue);}
-.filter-divider{width:1px;background:var(--gray-mid);margin:4px 2px;flex-shrink:0;}
-.results-row{padding:8px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--gray-mid);}
-.results-count{font-size:12px;color:var(--gray-text);}
-.results-count strong{color:var(--black);}
+.banner-track{display:flex;gap:12px;padding:14px 24px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.banner-track::-webkit-scrollbar{display:none;}
+.banner-card{min-width:260px;height:110px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:var(--black);}
+.banner-card img{width:100%;height:100%;object-fit:cover;display:block;}
+.banner-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+.banner-placeholder .b-brand{font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:3px;}
+.banner-placeholder .b-tag{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;}
+.banner-badge{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);color:var(--white);font-size:10px;font-family:'Poppins',sans-serif;font-weight:500;padding:4px 12px;border-radius:12px;letter-spacing:0.5px;}
 
-/* Casetify-Style Premium Responsive Grid Layout for iPad */
-.catalog-grid{flex:1;overflow-y:auto;padding:24px;display:grid;grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));gap:28px;align-content:start;}
-.prod-card{background:transparent;border:none;cursor:pointer;transition:transform 0.2s ease;display:flex;flex-direction:column;position:relative;height:auto;}
-.prod-card:active{transform:scale(0.98);}
+.grid{padding:4px 24px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-content:start;}
 
-/* รูปภาพกรอบสี่เหลี่ยมจัตุรัสแบบ Casetify มีพื้นหลังนวลๆ ไร้ขอบตัด */
-.prod-img{background:var(--gray-bg);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:16px;}
-.prod-img img{width:100%;height:100%;object-fit:cover;}
-.prod-img-placeholder{width:40%;height:40%;opacity:0.15;}
-.prod-badge{position:absolute;top:12px;left:12px;padding:4px 8px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;z-index:2;}
-.badge-new{background:var(--blue);color:var(--black);}
+.card{background:var(--white);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;border:1px solid var(--border);}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);}
+.card:active{transform:scale(0.98);}
+.card-img{aspect-ratio:3/4;background:var(--bg);position:relative;overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s;}
+.card:hover .card-img img{transform:scale(1.03);}
+.card-img .placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--border);}
+.card-badge{position:absolute;top:10px;left:10px;font-size:9px;font-weight:600;padding:3px 10px;border-radius:10px;font-family:'Poppins',sans-serif;text-transform:uppercase;letter-spacing:0.5px;}
 .badge-hot{background:var(--yellow);color:var(--black);}
-.badge-sale{background:#FF4444;color:white;}
-
-/* ข้อมูลสินค้าใต้ภาพแยกแบรนด์ชัดเจน ยืดความสูงชื่อเต็มที่แบบไม่ซ้อนทับกัน */
-.prod-info{padding:12px 4px 0;display:flex;flex-direction:column;flex:1;height:auto;}
-.prod-brand{font-family:'Poppins',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:4px;line-height:1;}
-.prod-name{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:6px;color:var(--black);word-break:break-word;overflow:visible;white-space:normal;height:auto;}
-.prod-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;height:auto;}
-.prod-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--gray-bg);color:var(--gray-text);}
-.prod-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:8px;border-top:1px solid #F0F0F0;flex-shrink:0;}
-.prod-price{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--black);}
-.prod-price sup{font-size:10px;font-weight:600;}
-.prod-colors{display:flex;gap:4px;}
-.prod-color-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);}
+.badge-new{background:var(--blue);color:var(--black);}
+.badge-sale{background:#FF4444;color:var(--white);}
+.card-info{padding:12px 14px;}
+.card-brand{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.card-name{font-size:13px;font-weight:500;line-height:1.35;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;}
+.card-price{font-family:'Poppins',sans-serif;font-size:15px;font-weight:600;}
+.card-dots{display:flex;gap:3px;}
+.card-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);}
 
 .no-results{grid-column:1/-1;text-align:center;padding:60px 20px;}
-.no-results h3{font-size:16px;font-weight:600;margin-bottom:6px;}
-.no-results p{font-size:13px;color:var(--gray-text);}
-.loading-state{grid-column:1/-1;text-align:center;padding:50px 20px;}
-.loading-dots{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
-.loading-dot{width:8px;height:8px;border-radius:50%;background:var(--yellow);animation:bounce 0.8s ease infinite;}
-.loading-dot:nth-child(2){animation-delay:0.15s;}
-.loading-dot:nth-child(3){animation-delay:0.3s;}
-@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+.no-results h3{font-size:16px;font-weight:500;margin-bottom:6px;}
+.no-results p{font-size:13px;color:var(--muted);}
 
-/* MODAL */
-.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:all 0.25s;}
-.modal-bg.open{opacity:1;pointer-events:all;}
-.modal-sheet{background:var(--white);width:100%;max-height:88vh;border-radius:20px 20px 0 0;overflow-y:auto;transform:translateY(100%);transition:transform 0.3s cubic-bezier(.32,0,.67,0);position:relative;}
-.modal-bg.open .modal-sheet{transform:translateY(0);}
-.modal-bg.open.lightbox-open .modal-sheet{transform:scale(0.96);opacity:0.6;filter:blur(2px);}
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--white);width:90%;max-width:680px;max-height:85vh;border-radius:20px;overflow-y:auto;transform:scale(0.95);transition:transform 0.3s;scrollbar-width:none;}
+.modal-box::-webkit-scrollbar{display:none;}
+.modal-overlay.open .modal-box{transform:scale(1);}
+.modal-close{position:sticky;top:12px;float:right;margin:12px 16px 0 0;background:var(--bg);border:none;border-radius:50%;width:32px;height:32px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
+.modal-body{padding:20px 24px 32px;}
+.modal-hero{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px;scrollbar-width:none;}
+.modal-hero::-webkit-scrollbar{display:none;}
+.modal-hero img{width:140px;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--bg);flex-shrink:0;cursor:pointer;}
+.modal-brand{font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
+.modal-name{font-size:22px;font-weight:500;line-height:1.2;margin-bottom:4px;}
+.modal-model{font-family:'Poppins',sans-serif;font-size:12px;color:var(--muted);margin-bottom:14px;}
+.modal-price{font-family:'Poppins',sans-serif;font-size:28px;font-weight:600;margin-bottom:16px;}
+.modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+.modal-tag{font-size:11px;padding:4px 12px;border-radius:12px;background:var(--bg);color:var(--black);font-weight:400;}
+.detail-label{font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.feature-list{list-style:none;margin-bottom:20px;}
+.feature-list li{font-size:13px;padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--black);}
+.feature-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--yellow);margin-top:6px;flex-shrink:0;}
+.overlay-box{background:var(--bg);border-radius:14px;padding:16px;margin-bottom:20px;}
+.overlay-label{font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.overlay-content{display:flex;gap:14px;align-items:center;}
+.overlay-colors{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+.overlay-btn{display:flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--border);cursor:pointer;padding:5px 10px;border-radius:20px;transition:border-color 0.15s;}
+.overlay-btn.on{border-color:var(--black);}
+.overlay-btn .swatch{width:18px;height:18px;border-radius:50%;flex-shrink:0;}
+.overlay-btn .lbl{font-size:11px;font-family:'Poppins',sans-serif;font-weight:500;color:var(--black);}
+.overlay-container-box{position:relative;width:280px;max-width:100%;flex-shrink:0;margin:0 auto;aspect-ratio:1/1;}
+.overlay-container-box img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;}
+#overlayPhone{z-index:1;}
+#overlayCase{z-index:2;}
 
-.modal-handle{width:32px;height:4px;border-radius:2px;background:var(--gray-mid);margin:10px auto;}
-.modal-close{position:absolute;top:12px;right:16px;background:var(--gray-bg);border:none;border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:700;z-index:10;}
-.modal-body{padding:16px 18px 36px;}
+.lightbox{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox img{max-width:80%;max-height:80vh;object-fit:contain;border-radius:12px;}
+.lb-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:white;width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;}
+.lb-prev{left:20px;}
+.lb-next{right:20px;}
+.lb-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;}
 
-.modal-inner{display:flex;flex-direction:column;gap:16px;margin-bottom:16px;}
-.modal-img-side{width:100%;display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
-.modal-img-side::-webkit-scrollbar{display:none;}
-.modal-info-side{flex:1;width:100%;}
-
-.overlay-section{background:var(--gray-bg);border-radius:14px;padding:16px;margin-bottom:16px;}
-.overlay-color-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;}
-.modal-brand{font-family:'Poppins',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray-text);margin-bottom:4px;}
-.modal-name{font-size:20px;font-weight:600;line-height:1.2;margin-bottom:3px;}
-.modal-model-txt{font-family:'Poppins',sans-serif;font-size:12px;color:var(--gray-text);margin-bottom:12px;}
-.modal-price{font-family:'Poppins',sans-serif;font-size:26px;font-weight:900;margin-bottom:14px;}
-.modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
-.modal-tag{font-size:11px;font-weight:500;padding:4px 10px;border-radius:10px;background:var(--gray-bg);color:var(--black);}
-.section-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-text);margin-bottom:10px;}
-.feature-list{list-style:none;margin-bottom:18px;}
-.feature-list li{font-size:13px;padding:8px 0;border-bottom:1px solid var(--gray-mid);display:flex;gap:8px;align-items:flex-start;font-weight:400;}
-.feature-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--yellow);margin-top:5px;flex-shrink:0;}
-.modal-cta{display:none;}
-
-/* 1:1 Pure CSS Square overlay container layout - ขยายขนาดขึ้นเป็น 280px ตามต้องการ */
-.overlay-container-box {
-  position: relative; 
-  width: 280px; /* 📌 ขยายให้รูปพรีวิวเครื่อง+เคสใหญ่ขึ้นเต็มตา */
-  max-width: 100%; 
-  flex-shrink: 0; 
-  margin: 0 auto; 
-  aspect-ratio: 1/1; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  overflow: hidden;
+@media(max-width:768px){
+  .sidebar{width:180px;}
+  .grid{grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 16px 40px;}
+  .banner-card{min-width:220px;height:90px;}
 }
-.overlay-container-box img {
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover;
-}
-#overlayPhone {z-index:1;}
-#overlayCase {z-index:2;}
-
-/* Soft Transparent LightBox Modal */
-#lightboxModal {position:fixed;inset:0;z-index:600;background:rgba(20,20,20,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 0.25s ease;pointer-events:none;}
-#lightboxModal.open {display:flex;opacity:1;pointer-events:all;}
-#lightboxImage {max-width:85%;max-height:75vh;object-fit:contain;border-radius:16px;box-shadow:0 20px 40px rgba(0,0,0,0.3);animation:zoomIn 0.25s cubic-bezier(.175,.885,.32,1.15);}
-@keyframes zoomIn {from{transform:scale(0.92);opacity:0;} to{transform:scale(1);opacity:1;}}
-#lightboxClose {position:absolute;top:24px;right:24px;color:white;font-size:36px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:300;background:rgba(255,255,255,0.1);width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
-.lightbox-nav {position:absolute;top:50%;transform:translateY(-50%);color:white;font-size:28px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;cursor:pointer;width:50px;height:50px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10;}
-#lightboxPrev {left:24px;}
-#lightboxNext {right:24px;}
-.lightbox-nav:active {background:rgba(255,255,255,0.3);}
 </style>
-<script>window.AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || "patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
+<script>window.AIRTABLE_TOKEN=window.AIRTABLE_TOKEN||"patshmTUPF7zkV5sI.4e0ebeaf81f0371f19d82fdf1d33a2e2346fb00c654d773289409a15961d2f16";</script>
 </head>
 <body>
 
 <div id="splash">
-  <img src="logo.svg" alt="maitreechit." style="height:72px;object-fit:contain;margin-bottom:6px;">
+  <img src="logo.svg" alt="maitreechit." style="height:72px;object-fit:contain;">
   <div class="splash-tag">always your friend.</div>
 </div>
 
-<div id="viewPicker" class="view">
-  <div class="app-header">
-    <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
-    <div style="font-family:'Poppins',sans-serif;font-size:11px;color:var(--gray-text);font-weight:600">product catalog</div>
-  </div>
-  <div class="picker-body">
-    <div class="picker-title">เลือกรุ่น iPhone ของคุณ</div>
-    <div class="picker-sub">เพื่อดูสินค้าที่เข้ากับเครื่องของคุณ</div>
-
-    <div class="series-label">iPhone 17 Series</div>
-    <div class="model-grid">
-  <div class="model-card" id="card-iPhone 17" onclick="previewModel('iPhone 17',this)">
-    <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><line x1="9.5" y1="5.5" x2="14.5" y2="5.5"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
-    <div class="model-name">iPhone 17</div>
-    <div class="model-chip">6.1"</div>
-  </div>
-  <div class="model-card" id="card-iPhone 17 Air" onclick="previewModel('iPhone 17 Air',this)">
-    <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="9.5" y1="5.5" x2="14.5" y2="5.5"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
-    <div class="model-name">iPhone 17 Air</div>
-    <div class="model-chip">6.6"</div>
-  </div>
-  <div class="model-card" id="card-iPhone 17 Pro" onclick="previewModel('iPhone 17 Pro',this)">
-    <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M9.5 5h5M10.5 6.5h3"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
-    <div class="model-name">iPhone 17 Pro</div>
-    <div class="model-chip">Pro · 6.3"</div>
-  </div>
-  <div class="model-card" id="card-iPhone 17 Pro Max" onclick="previewModel('iPhone 17 Pro Max',this)">
-    <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M9.5 5h5M10.5 6.5h3"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg></div>
-    <div class="model-name">iPhone 17 Pro Max</div>
-    <div class="model-chip">Pro · 6.9"</div>
-  </div>
-</div>
-  </div>
-  <div class="confirm-bar" id="confirmBar">
-    <button class="confirm-btn" onclick="goToCatalog()">ดูสินค้าสำหรับ <span id="confirmLabel"></span> &rarr;</button>
-  </div>
-</div>
-
-<div id="viewCatalog" class="view">
-  <div class="app-header">
-    <img src="logo.svg" alt="maitreechit." style="height:60px;object-fit:contain;">
-    <div class="search-wrap">
-      <span class="search-icon">&#128269;</span>
-      <input class="search-input" type="text" placeholder="ค้นหาสินค้า..." id="searchInput" oninput="applyFilters()">
+<div class="app" id="app">
+  <aside class="sidebar">
+    <div class="side-top">
+      <img src="logo.svg" alt="maitreechit." class="side-logo">
+      <div class="side-sub">product catalog</div>
     </div>
-  </div>
-  <div class="model-bar">
-    <div>
-      <div class="model-bar-name" id="barModelName"></div>
-      <div class="model-bar-color">
-        <span id="barColorName"></span>
+
+    <div class="side-section">
+      <div class="side-label">รุ่น iPhone</div>
+      <div class="chip-wrap" id="modelChips">
+        <div class="chip on" onclick="setModel(this,'iPhone 17 Pro Max')">17 Pro Max</div>
+        <div class="chip" onclick="setModel(this,'iPhone 17 Pro')">17 Pro</div>
+        <div class="chip" onclick="setModel(this,'iPhone 17')">17</div>
+        <div class="chip" onclick="setModel(this,'iPhone 17 Air')">17 Air</div>
       </div>
     </div>
-    <button class="change-btn" onclick="showView('viewPicker')">เปลี่ยนรุ่น</button>
-  </div>
-  <div class="filter-scroll" id="catFilterRow">
-    <button class="cat-all-btn active" data-cat="all" onclick="setCatCard(this,'all')">
-      <span style="font-size:16px">▤</span>
-      <span>ทั้งหมด</span>
-    </button>
-    <div id="catCards" style="display:contents"></div>
-  </div>
-  <div class="filter-scroll" id="tagBrandRow" style="padding:8px 16px;">
-    <span style="font-size:10px;color:var(--gray-text);font-weight:600;flex-shrink:0;align-self:center;margin-right:4px">ประเภท</span>
-    <div id="tagChips" style="display:contents"></div>
-  </div>
-  <div class="filter-scroll" id="brandRow" style="padding:4px 16px;border-bottom:1px solid var(--gray-mid);">
-    <span style="font-size:10px;color:var(--gray-text);font-weight:600;flex-shrink:0;align-self:center;margin-right:4px">แบรนด์</span>
-    <div id="brandChips" style="display:contents"></div>
-  </div>
-  <div class="results-row">
-    <div class="results-count" id="resultsCount">กำลังโหลด...</div>
-  </div>
-  <div class="catalog-grid" id="catalogGrid">
-    <div class="loading-state"><div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div><div style="font-size:13px;color:var(--gray-text)">กำลังโหลดสินค้า...</div></div>
+
+    <div class="side-section">
+      <div class="side-label">ประเภท</div>
+      <div class="chip-wrap" id="tagChips"></div>
+    </div>
+
+    <div class="side-section">
+      <div class="side-label">แบรนด์</div>
+      <div class="chip-wrap" id="brandChips"></div>
+    </div>
+
+    <div class="side-bottom">
+      <div class="side-bottom-tag">always your friend.</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onclick="toggleSidebar()" style="background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all 0.15s;" title="ซ่อน/แสดงตัวกรอง">&#9776;</button>
+        <div class="topbar-info" id="topInfo">กำลังโหลด...</div>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">&#128269;</span>
+        <input class="search-input" type="text" placeholder="ค้นหาสินค้า..." id="searchInput" oninput="applyFilters()">
+      </div>
+    </div>
+    <div class="scroll-area">
+      <div class="banner-track" id="bannerTrack"></div>
+      <div class="grid" id="grid"></div>
+    </div>
   </div>
 </div>
 
-<div class="modal-bg" id="modalBg" onclick="handleModalClick(event)">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">&#10005;</button>
     <div class="modal-body">
-      <div class="modal-inner">
-        <div class="modal-img-side" id="mHero"></div>
-        <div class="modal-info-side">
-          <div class="modal-brand" id="mBrand"></div>
-          <div class="modal-name" id="mName"></div>
-          <div class="modal-model-txt" id="mModel"></div>
-          <div class="modal-price" id="mPrice"></div>
-          <div class="modal-tags" id="mTags"></div>
-        </div>
-      </div>
+      <div class="modal-hero" id="mHero"></div>
+      <div class="modal-brand" id="mBrand"></div>
+      <div class="modal-name" id="mName"></div>
+      <div class="modal-model" id="mModel"></div>
+      <div class="modal-price" id="mPrice"></div>
+      <div class="modal-tags" id="mTags"></div>
 
-      <div id="overlaySection" style="display:none;background:var(--gray-bg);border-radius:14px;padding:14px;margin-bottom:16px;">
-        <div style="font-family:'Mitr',sans-serif;font-size:12px;font-weight:500;color:var(--gray-text);margin-bottom:12px;">ลองใส่เคสกับเครื่องของคุณ</div>
-        <div style="display:flex;gap:16px;align-items:center">
-          <div id="overlayColors" style="display:flex;flex-direction:column;gap:8px;flex-shrink:0"></div>
+      <div class="overlay-box" id="overlaySection" style="display:none;">
+        <div class="overlay-label">ลองใส่เคสกับเครื่องของคุณ</div>
+        <div class="overlay-content">
+          <div class="overlay-colors" id="overlayColors"></div>
           <div class="overlay-container-box">
             <img id="overlayPhone" src="">
             <img id="overlayCase" src="">
@@ -297,28 +213,26 @@ body{font-family:'Mitr',sans-serif;background:var(--white);color:var(--black);ov
         </div>
       </div>
 
-      <div class="section-label">รายละเอียด</div>
+      <div class="detail-label">รายละเอียด</div>
       <ul class="feature-list" id="mFeatures"></ul>
-      <button class="modal-cta">สนใจสินค้านี้ — แจ้ง PC staff</button>
     </div>
   </div>
 </div>
 
-<div id="lightboxModal" onclick="closeLightbox()">
-  <span id="lightboxClose" onclick="closeLightbox()">&times;</span>
-  <img id="lightboxImage" src="" alt="ขยายรูปภาพ" onclick="event.stopPropagation()">
-  <button id="lightboxPrev" class="lightbox-nav" onclick="prevLightboxImage(event)">&#10094;</button>
-  <button id="lightboxNext" class="lightbox-nav" onclick="nextLightboxImage(event)">&#10095;</button>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">&#10005;</button>
+  <button class="lb-btn lb-prev" onclick="event.stopPropagation();prevLB()">&#8249;</button>
+  <img id="lbImg" src="">
+  <button class="lb-btn lb-next" onclick="event.stopPropagation();nextLB()">&#8250;</button>
 </div>
 
 <script>
-// ── AIRTABLE CONFIG ──
-const AIRTABLE_BASE  = 'appuDsqo3ODV9r4Ym';
-const AIRTABLE_TABLE = 'tblpHdM3GcpPjUix3';
-const AIRTABLE_TOKEN = window.AIRTABLE_TOKEN || '';
+const AIRTABLE_BASE='appuDsqo3ODV9r4Ym';
+const AIRTABLE_TABLE='tblpHdM3GcpPjUix3';
+const AIRTABLE_TOKEN=window.AIRTABLE_TOKEN||'';
 
-const MODEL_COLORS = {
-  'iPhone 17 Pro':    [
+const MODEL_COLORS={
+  'iPhone 17 Pro':[
     {color:'เงิน',hex:'#E6E2D8',img:'https://i.ibb.co/TDPch9xT/Mockup-05-1.png'},
     {color:'น้ำเงินเข้ม',hex:'#2B3A52',img:'https://i.ibb.co/tTy7cYs2/Mockup-03.png'},
     {color:'ส้มคอสมิก',hex:'#C0693A',img:'https://i.ibb.co/qMFddJhn/Mockup-04.png'}
@@ -330,139 +244,117 @@ const MODEL_COLORS = {
   ],
 };
 
-const FALLBACK = [
-  {id:1,brand:'Skinarma',name:'Sabre Series',model:'iPhone 17 / 17 Plus',models:['iPhone 17','iPhone 17 Plus'],cat:'เคส',price:690,badge:'hot',image:'',tags:['กันกระแทก'],colors:[{name:'Onyx',hex:'#1A1A1A',matchColors:['ดำ']}],features:['Drop protection']}
+const BANNERS=[
+  {brand:'SKINARMA',text:'protect with style.',bg:'linear-gradient(135deg,#1A1A1A,#333)'},
+  {brand:'LAUT',text:'designed for life.',bg:'linear-gradient(135deg,#2B3A52,#45F1FF)'},
+  {brand:'JTLegend',text:'legendary protection.',bg:'linear-gradient(135deg,#7b3e19,#C0693A)'},
+  {brand:'amazingthing',text:'amazing protection.',bg:'linear-gradient(135deg,#109648,#1A1A1A)'},
+  {brand:'Avocado',text:'cute & protective.',bg:'linear-gradient(135deg,#e5989b,#9d8df1)'},
 ];
 
-let state={model:'',phoneColor:'',phonehex:'',cat:'all',tag:'',brand:'',search:''};
+let state={model:'iPhone 17 Pro Max',cat:'',tag:'',brand:'',search:''};
 let PRODUCTS=[];
-let pendingModel='';
-window.currentSlides=[];
-window.currentLightboxIndex=0;
+let lbSlides=[];
+let lbIdx=0;
 
 async function loadData(){
   try{
-    let allRecords=[];
-    let offset='';
-    let maxPages=10;
+    let all=[];let offset='';let max=10;
     do{
       const url=`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}?pageSize=100${offset?'&offset='+offset:''}`;
       const res=await fetch(url,{headers:{Authorization:`Bearer ${AIRTABLE_TOKEN}`}});
-      const data=await res.json();
-      if(data.error){throw new Error(data.error.message);}
-      allRecords=[...allRecords,...(data.records||[])];
-      offset=(data.records&&data.records.length===100&&data.offset)?data.offset:'';
-      maxPages--;
-    }while(offset&&maxPages>0);
-    if(!allRecords.length){PRODUCTS=FALLBACK;renderAllFilters();return;}
-    
-    PRODUCTS=allRecords.map((rec,i)=>{
+      const d=await res.json();
+      if(d.error)throw new Error(d.error.message);
+      all=[...all,...(d.records||[])];
+      offset=(d.records&&d.records.length===100&&d.offset)?d.offset:'';
+      max--;
+    }while(offset&&max>0);
+    if(!all.length)return;
+    PRODUCTS=all.map((rec,i)=>{
       const f=rec.fields;
       let colors=[];try{colors=JSON.parse(f.colors_json||'[]');}catch(e){}
-      
-      // 📌 ปรับปรุงระบบให้อ่านข้อมูลรูปภาพโดยตรงจากฟิลด์ประเภท Attachment ของ Airtable
-      const imgArray = f.images || [];
-      const cutoutArray = f.case_cutout || [];
-      
+      const imgs=f.images||[];
+      const cuts=f.case_cutout||[];
       return{id:i+1,brand:f.brand||'',name:f.name||'',model:f.model_display||'',
         models:(f.compatible_models||'').split('|').map(m=>m.trim()).filter(Boolean),
-        cat:f.category||'',price:parseInt(f.price)||0,badge:f.badge||null,
-        image: imgArray[0] ? imgArray[0].url : '',  // รูปหลักสินค้า
-        image2: imgArray[1] ? imgArray[1].url : '', // รูปย่อย 2
-        image3: imgArray[2] ? imgArray[2].url : '', // รูปย่อย 3
-        image4: imgArray[3] ? imgArray[3].url : '', // รูปย่อย 4
-        cutout: cutoutArray[0] ? cutoutArray[0].url : '', // รูปเคสใส Overlay ซ้อนทับเครื่อง
+        cat:f.category||'',price:parseInt(f.price)||0,badge:f.badge||null,isCover:!!f.is_cover,
+        image:imgs[0]?imgs[0].url:'',image2:imgs[1]?imgs[1].url:'',image3:imgs[2]?imgs[2].url:'',image4:imgs[3]?imgs[3].url:'',
+        cutout:cuts[0]?cuts[0].url:'',
         tags:(f.tags||'').split('|').map(t=>t.trim()).filter(Boolean),
         colors,features:[f.f1,f.f2,f.f3,f.f4].filter(Boolean)};
     });
-    renderAllFilters();
-  }catch(e){console.warn('Airtable failed, fallback used:',e);PRODUCTS=FALLBACK;}
-  renderAllFilters();
-}
-
-function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function previewModel(model,el){
-  document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  pendingModel=model;
-  document.getElementById('confirmBar').style.display='block';
-  document.getElementById('confirmLabel').textContent=model;
-}
-
-function goToCatalog(){
-  if(!pendingModel)return;
-  state.model=pendingModel;
-  state.cat='all';state.tag='';state.brand='';state.search='';
-  document.getElementById('barModelName').textContent=state.model;
-  document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.toggle('active',c.dataset.cat==='all'));
-  document.querySelectorAll('[data-tag],[data-brand]').forEach(c=>c.classList.remove('active'));
-  document.getElementById('searchInput').value='';
-  document.getElementById('confirmBar').style.display='none';
-  showView('viewCatalog');
+  }catch(e){console.warn('Airtable failed:',e);}
+  renderFilters();
+  renderBanners();
   renderGrid();
 }
 
-function renderAllFilters(){
-  const cats=[...new Set(PRODUCTS.map(p=>p.cat).filter(Boolean))].sort();
-  const catEl=document.getElementById('catCards');
-  if(catEl) catEl.innerHTML=cats.map(c=>{
-    const first=PRODUCTS.find(p=>p.cat===c&&p.image);
-    return `<div class="cat-card" data-cat="${c}" onclick="setCatCard(this,'${c}')">
-      ${first ? `<img class="cat-card-img" src="${first.image}" alt="${c}">` : `<div class="cat-card-img-placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/></svg></div>`}
-      <div class="cat-card-label">${c}</div>
-    </div>`;
-  }).join('');
-
-  const allTags=[...new Set(PRODUCTS.flatMap(p=>p.tags).filter(Boolean))].sort();
-  const tagEl=document.getElementById('tagChips');
-  if(tagEl&&allTags.length){
-    tagEl.innerHTML=allTags.map(t=>`<button class="filter-chip" data-tag="${t}" onclick="setTag(this)">${t}</button>`).join('');
-  }
-
+function renderFilters(){
+  const tags=[...new Set(PRODUCTS.flatMap(p=>p.tags).filter(Boolean))].sort();
+  document.getElementById('tagChips').innerHTML=tags.map(t=>`<div class="chip" onclick="setTag(this,'${t}')">${t}</div>`).join('');
   const brands=[...new Set(PRODUCTS.map(p=>p.brand).filter(Boolean))].sort();
-  const brandEl=document.getElementById('brandChips');
-  if(brandEl&&brands.length){
-    brandEl.innerHTML=brands.map(b=>`<button class="filter-chip brand-chip" data-brand="${b}" onclick="setBrand(this)">${b}</button>`).join('');
-  }
+  document.getElementById('brandChips').innerHTML=brands.map(b=>`<div class="chip" onclick="setBrand(this,'${b}')">${b}</div>`).join('');
 }
 
-function setCatCard(el,cat){
-  state.cat=cat;
-  document.querySelectorAll('.cat-card,.cat-all-btn').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
+function renderBanners(){
+  const el=document.getElementById('bannerTrack');
+  el.innerHTML=BANNERS.map(b=>`<div class="banner-card" style="background:${b.bg}" onclick="setBrandDirect('${b.brand}')">
+    <div class="banner-placeholder">
+      <div class="b-brand">${b.brand}</div>
+      <div class="b-tag">${b.text}</div>
+    </div>
+  </div>`).join('');
+}
+
+function setModel(el,m){
+  state.model=m;
+  document.querySelectorAll('#modelChips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
   renderGrid();
 }
-function setTag(btn){const t=btn.dataset.tag;state.tag=state.tag===t?'':t;document.querySelectorAll('[data-tag]').forEach(c=>c.classList.toggle('active',c.dataset.tag===state.tag));renderGrid();}
-function setBrand(btn){const b=btn.dataset.brand;state.brand=state.brand===b?'':b;document.querySelectorAll('[data-brand]').forEach(c=>c.classList.toggle('active',c.dataset.brand===state.brand));renderGrid();}
+function setTag(el,t){
+  state.tag=state.tag===t?'':t;
+  document.querySelectorAll('#tagChips .chip').forEach(c=>c.classList.toggle('on',c.textContent===state.tag));
+  renderGrid();
+}
+function setBrand(el,b){
+  state.brand=state.brand===b?'':b;
+  document.querySelectorAll('#brandChips .chip').forEach(c=>c.classList.toggle('brand-on',c.textContent===state.brand));
+  renderGrid();
+}
+function setBrandDirect(b){
+  state.brand=state.brand===b?'':b;
+  document.querySelectorAll('#brandChips .chip').forEach(c=>c.classList.toggle('brand-on',c.textContent===state.brand));
+  renderGrid();
+}
+function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('collapsed');}
 function applyFilters(){state.search=document.getElementById('searchInput').value.toLowerCase();renderGrid();}
-function isMatch(p){if(!state.phoneColor)return false;return p.colors.some(c=>c.matchColors&&c.matchColors.includes(state.phoneColor));}
 
 function getFiltered(){
   return PRODUCTS.filter(p=>{
-    if(!p.models.includes(state.model))return false;
-    if(state.cat!=='all'&&p.cat!==state.cat)return false;
+    if(state.model&&!p.models.includes(state.model))return false;
     if(state.tag&&!p.tags.includes(state.tag))return false;
     if(state.brand&&p.brand!==state.brand)return false;
     if(state.search){const s=state.search;if(!p.name.toLowerCase().includes(s)&&!p.brand.toLowerCase().includes(s)&&!p.tags.join(' ').includes(s))return false;}
     return true;
-  }).sort((a,b)=>(isMatch(b)?1:0)-(isMatch(a)?1:0));
+  });
 }
 
 function renderGrid(){
   const list=getFiltered();
-  document.getElementById('resultsCount').innerHTML=`แสดง <strong>${list.length}</strong> รายการ`;
-  if(!list.length){document.getElementById('catalogGrid').innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยนตัวกรองดูนะครับ</p></div>';return;}
-  document.getElementById('catalogGrid').innerHTML=list.map(p=>{
-    const imgHtml=p.image?`<img src="${p.image}" alt="${p.name}">`:`<div class="prod-img-placeholder"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
-    return`<div class="prod-card" onclick="openModal(${p.id})">
-      <div class="prod-img">${imgHtml}${p.badge?`<div class="prod-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
-      <div class="prod-info">
-        <div class="prod-brand">${p.brand}</div>
-        <div class="prod-name" title="${p.name}">${p.name}</div>
-        <div class="prod-tags">${p.tags.map(t=>`<span class="prod-tag">${t}</span>`).join('')}</div>
-        <div class="prod-bottom">
-          <div class="prod-price">&#3647;${p.price.toLocaleString()}<sup>.-</sup></div>
-          <div class="prod-colors">${p.colors.map(c=>`<div class="prod-color-dot" style="background:${c.hex}"></div>`).join('')}</div>
+  document.getElementById('topInfo').innerHTML=`<span style="display:inline-flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:var(--yellow);display:inline-block"></span><strong>${state.model}</strong></span> &mdash; แสดง <strong>${list.length}</strong> รายการ`;
+  const el=document.getElementById('grid');
+  if(!list.length){el.innerHTML='<div class="no-results"><h3>ไม่พบสินค้า</h3><p>ลองเปลี่ยนตัวกรองดูนะคะ</p></div>';return;}
+  el.innerHTML=list.map(p=>{
+    const img=p.image?`<img src="${p.image}" alt="${p.name}" loading="lazy">`:`<div class="placeholder">&#9724;</div>`;
+    return`<div class="card" onclick="openModal(${p.id})">
+      <div class="card-img">${img}${p.badge?`<div class="card-badge badge-${p.badge}">${p.badge}</div>`:''}</div>
+      <div class="card-info">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-bottom">
+          <div class="card-price">฿${p.price.toLocaleString()}.-</div>
+          <div class="card-dots">${p.colors.slice(0,4).map(c=>`<div class="card-dot" style="background:${c.hex}"></div>`).join('')}</div>
         </div>
       </div>
     </div>`;
@@ -471,17 +363,9 @@ function renderGrid(){
 
 function openModal(id){
   const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
+  lbSlides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
   const hero=document.getElementById('mHero');
-  window.currentSlides=[p.image,p.image2,p.image3,p.image4].filter(Boolean);
-  
-  if(window.currentSlides.length>0){
-    hero.innerHTML = window.currentSlides.map((src, idx) => 
-      `<img src="${src}" onclick="openLightbox(${idx})" style="width: 140px; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; background: var(--gray-bg); flex-shrink: 0; cursor: pointer;">`
-    ).join('');
-  } else {
-    hero.innerHTML=`<div style="width: 140px; aspect-ratio: 3/4; display:flex; align-items:center; justify-content:center; background:var(--gray-bg); border-radius:10px; flex-shrink:0;"><svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40" style="opacity:0.15"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div>`;
-  }
-
+  hero.innerHTML=lbSlides.length?lbSlides.map((s,i)=>`<img src="${s}" onclick="openLB(${i})" loading="lazy">`).join(''):'';
   document.getElementById('mBrand').textContent=p.brand;
   document.getElementById('mName').textContent=p.name;
   document.getElementById('mModel').textContent=p.model;
@@ -489,72 +373,40 @@ function openModal(id){
   document.getElementById('mTags').innerHTML=p.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
   document.getElementById('mFeatures').innerHTML=p.features.map(f=>`<li>${f}</li>`).join('');
 
-  const colors = MODEL_COLORS[state.model] || [];
-  const overlaySection = document.getElementById('overlaySection');
-  if(overlaySection && p.cutout && colors.length){
-    overlaySection.style.display='block';
-    document.getElementById('overlayCase').src = p.cutout;
-    document.getElementById('overlayColors').innerHTML = colors.filter(c=>c.img).map((c,i)=>`
-      <button class="overlay-color-btn ${i===0?'active':''}" onclick="selectOverlayColor(this,'${c.img}')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:20px;border:1.5px solid ${i===0?'var(--black)':'var(--gray-mid)'}">
-        <div style="width:20px;height:20px;border-radius:50%;background:${c.hex};flex-shrink:0"></div>
-        <span style="font-size:12px;font-family:'Poppins',sans-serif;font-weight:600">${c.color}</span>
+  const colors=MODEL_COLORS[state.model]||[];
+  const ov=document.getElementById('overlaySection');
+  if(ov&&p.cutout&&colors.length){
+    ov.style.display='block';
+    document.getElementById('overlayCase').src=p.cutout;
+    document.getElementById('overlayColors').innerHTML=colors.filter(c=>c.img).map((c,i)=>`
+      <button class="overlay-btn${i===0?' on':''}" onclick="pickColor(this,'${c.img}')">
+        <div class="swatch" style="background:${c.hex}"></div>
+        <span class="lbl">${c.color}</span>
       </button>`).join('');
-    
-    const firstColorWithImg = colors.find(c=>c.img);
-    if(firstColorWithImg){
-      document.getElementById('overlayPhone').src = firstColorWithImg.img;
-      state.phoneColor = colors[0].color;
-    } else {
-      overlaySection.style.display='none';
-    }
-  } else {
-    if(overlaySection) overlaySection.style.display='none';
-  }
-  document.getElementById('modalBg').classList.add('open');
-  document.body.style.overflow='hidden';
+    const first=colors.find(c=>c.img);
+    if(first)document.getElementById('overlayPhone').src=first.img;
+    else ov.style.display='none';
+  }else{if(ov)ov.style.display='none';}
+  document.getElementById('modalOverlay').classList.add('open');
 }
+function pickColor(btn,url){
+  document.querySelectorAll('.overlay-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('overlayPhone').src=url;
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
 
-function selectOverlayColor(btn, imgUrl){
-  document.querySelectorAll('.overlay-color-btn').forEach(b=>b.style.borderColor='var(--gray-mid)');
-  btn.style.borderColor='var(--black)';
-  if(imgUrl) document.getElementById('overlayPhone').src = imgUrl;
-}
-
-function handleModalClick(e){if(e.target===document.getElementById('modalBg'))closeModal();}
-function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow='';}
-
-// LIGHTBOX GALLERY
-function openLightbox(index) {
-  window.currentLightboxIndex = index;
-  const lightbox = document.getElementById('lightboxModal');
-  const lightboxImg = document.getElementById('lightboxImage');
-  lightboxImg.src = window.currentSlides[index];
-  lightbox.classList.add('open');
-  document.getElementById('modalBg').classList.add('lightbox-open');
-}
-function closeLightbox() {
-  document.getElementById('lightboxModal').classList.remove('open');
-  document.getElementById('modalBg').classList.remove('lightbox-open');
-}
-function changeLightboxImage(direction) {
-  window.currentLightboxIndex += direction;
-  if(window.currentLightboxIndex < 0) {
-    window.currentLightboxIndex = window.currentSlides.length - 1;
-  } else if(window.currentLightboxIndex >= window.currentSlides.length) {
-    window.currentLightboxIndex = 0;
-  }
-  document.getElementById('lightboxImage').src = window.currentSlides[window.currentLightboxIndex];
-}
-function prevLightboxImage(e) { if(e) e.stopPropagation(); changeLightboxImage(-1); }
-function nextLightboxImage(e) { if(e) e.stopPropagation(); changeLightboxImage(1); }
+function openLB(i){lbIdx=i;document.getElementById('lbImg').src=lbSlides[i];document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+function prevLB(){lbIdx=(lbIdx-1+lbSlides.length)%lbSlides.length;document.getElementById('lbImg').src=lbSlides[lbIdx];}
+function nextLB(){lbIdx=(lbIdx+1)%lbSlides.length;document.getElementById('lbImg').src=lbSlides[lbIdx];}
 
 window.addEventListener('load',async()=>{
   await loadData();
   setTimeout(()=>{
     document.getElementById('splash').classList.add('hide');
-    setTimeout(()=>document.getElementById('splash').remove(),400);
-    showView('viewPicker');
-  },1400);
+    setTimeout(()=>{document.getElementById('splash').remove();document.getElementById('app').classList.add('show');},500);
+  },1200);
 });
 </script>
 </body>
