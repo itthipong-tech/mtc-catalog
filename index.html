@@ -133,7 +133,7 @@ body{font-family:'Mitr',sans-serif;background:var(--bg);color:var(--black);}
   .side-overlay{display:none;position:fixed;inset:0;z-index:399;background:rgba(0,0,0,0.3);}
   .side-overlay.show{display:block;}
   .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:4px 16px 40px;}
-  .banner-card{min-width:220px;height:90px;}
+  .banner-card{min-width:240px;height:120px;}
   .topbar-info{font-size:11px;}
   .search-input{width:160px;font-size:11px;}
 }
@@ -327,8 +327,8 @@ function setBrand(el,b){
   renderGrid();
 }
 function setBrandDirect(b){
-  state.brand=state.brand===b?'':b;
-  document.querySelectorAll('#brandChips .chip').forEach(c=>c.classList.toggle('brand-on',c.textContent===state.brand));
+  state.brand=state.brand.toLowerCase()===b.toLowerCase()?'':b;
+  document.querySelectorAll('#brandChips .chip').forEach(c=>c.classList.toggle('brand-on',c.textContent.toLowerCase()===state.brand.toLowerCase()));
   renderGrid();
 }
 function toggleSidebar(){
@@ -347,7 +347,7 @@ function getFiltered(){
   return PRODUCTS.filter(p=>{
     if(state.model&&!p.models.includes(state.model))return false;
     if(state.tag&&!p.tags.includes(state.tag))return false;
-    if(state.brand&&p.brand!==state.brand)return false;
+    if(state.brand&&p.brand.toLowerCase()!==state.brand.toLowerCase())return false;
     if(state.search){const s=state.search;if(!p.name.toLowerCase().includes(s)&&!p.brand.toLowerCase().includes(s)&&!p.tags.join(' ').includes(s))return false;}
     return true;
   });
